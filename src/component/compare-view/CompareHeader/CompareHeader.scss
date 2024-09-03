@@ -1,3 +1,56 @@
+@use "../../../styles/partials/variables" as *;
+
 .compare-header {
-  background-color: bisque;
+  background-color: $pd-color1;
+  color: $pd-color2;
+  border-bottom: 4px solid $pd-color3;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+  &__container-nav {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  &__title {
+    text-align: center;
+  }
+  &__subtitle {
+    text-align: center;
+  }
+  &__wrapper-icon {
+    width: 10%;
+    padding-left: 0.5rem;
+  }
+  &__wrapper-list {
+    width: 10%;
+    padding-left: 0.5rem;
+  }
+  &__icon-left {
+    width: 2.7rem;
+    padding: 0;
+    margin-bottom: -0.5rem;
+  }
+  &__icon-text {
+    text-align: right;
+    max-width: 2.7rem;
+  }
+  &__icon-right {
+    width: 2rem;
+    padding-top: 0.5rem;
+  }
+  &__search-container {
+    width: 66%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  &__search-bar {
+    border-radius: 25px;
+    border: none;
+    width: 100%;
+    font-size: 1.5rem;
+    padding: 0.5rem;
+    padding-left: 1.5rem;
+  }
 }

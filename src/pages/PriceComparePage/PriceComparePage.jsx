@@ -5,7 +5,6 @@ import CompareMain from "../../component/compare-view/CompareMain/CompareMain";
 function PriceComparePage() {
   return (
     <>
-      <h1>Price Compare Page</h1>
       <CompareHeader />
       <CompareMain />
     </>
