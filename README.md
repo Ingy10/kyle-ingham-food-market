@@ -283,6 +283,8 @@ Stats Canada API: This external data source will provide real-time market averag
 6. GET: When A user uses the compare page and submits an item there must be a get request to get the monthly market price of that item
 7. GET: There will need to be a get request to get ALL food items by name. This will be used in conjunction with the search input on the price compare page to check if we have CPI price data on that item. This could run once a year and store all data in an object as items don't get added or removed very often. (I will likely need to add variations of a name such as potato & potatoes to make sure search is accurate and easy to use.)
 8. POST: When user uses the compare function within the grocery list and clicks buy on an item it will create another instance of that items price and POST it to the Food Item User Price table. (Note: Over time a user will have their own price averages for items that are not included in the CPI report. This should be denoted by a different text color in the list so the user knows when it is the CPI market average being shown vs. their own average price of an item.)
+9. DELETE: When user removes an item from their grocery list it will be deleted from the Grocery List Item Table.
+10. DELETE: When a user removes a list in must be removed from the Grocery List Table.
 
 ## Roadmap
 
