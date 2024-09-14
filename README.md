@@ -123,9 +123,9 @@ Stats Canada API: This external data source will provide real-time market averag
 ##### Customer Table - Includes all information about the customer:
 
     - Customer ID (primary key)
-    - Name
-    - Email
-    - Location
+    - Customer Name
+    - Customer Email
+    - Customer Province
     - Password
     - Sign-up Timestamp
     - Most recent sign-in
@@ -141,14 +141,14 @@ Stats Canada API: This external data source will provide real-time market averag
 
     - Grocery List Item Id (primary key)
     - Grocery List Id (foreign key)
-    - Item Id (foreign key)
+    - CPI Item Id (foreign key)
     - User Item Id (foreign key)
     - Active I/O
-    - Added Timestamp
+    - Item Added Timestamp
 
-##### Food Item CPI Table - This table will hold the price of all items from all provinces
+##### CPI Item Table - This table will hold the price of all items from all provinces
 
-    - Item Id (primary key)
+    - CPI Item Id (primary key)
     - Item Name
     - Item Market Price
     - Unit of Measure
@@ -156,12 +156,12 @@ Stats Canada API: This external data source will provide real-time market averag
     - Province
     - Last Updated Timestamp
 
-##### Food Item User Price Table - This table will hold all prices a user logs for any given item
+##### User Item Table - This table will hold all prices a user logs for any given item
 
     - User Item Id (primary key)
-    - Item Id (foreign key) - (will be used to store item id if that item exists in the CPI database)
-    - Item Name
-    - User Input Price
+    - CPI Item Id (foreign key) - (will be used to store item id if that item exists in the CPI database)
+    - User Item Name
+    - User Item Price
     - Category
     - Unit of Measure
     - Date of Price Input
