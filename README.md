@@ -118,6 +118,7 @@ Stats Canada API: This external data source will provide real-time market averag
 ### Data
 
 ![](./public/assets/proposal/database-diagram.png)
+![](./public/assets/proposal/SQL%20Table%20Schematic%20-%20Food%20Market.png)
 
 ##### Customer Table - Includes all information about the customer:
 
