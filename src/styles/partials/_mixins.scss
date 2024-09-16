@@ -4,9 +4,13 @@
   border: none;
   color: $color;
   background-color: $bg-color;
+  min-height: 3rem;
   padding-left: $padding;
   padding-right: $padding;
   border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   &:hover {
     opacity: 0.9;

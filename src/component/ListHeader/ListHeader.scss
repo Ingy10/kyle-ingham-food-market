@@ -3,7 +3,7 @@
 
 .list-header {
   color: $pd-color2;
-  border-bottom: 4px solid $pd-color3;
+  border-bottom: 4px solid $pd-color3-opaque;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -33,7 +33,7 @@
     text-align: center;
     padding-top: 0.5rem;
   }
-  &__subtitle {
+  &__sub-title {
     text-align: center;
   }
   &__wrapper-icon {
@@ -79,14 +79,16 @@
   }
   &__list-tabs {
     width: 100%;
+    display: flex;
+    padding-top: 0.5rem;
   }
   &__tab {
-    background-color: $pd-color3;
+    background-color: $pd-color3-opaque;
     padding: 0.5rem 1rem;
     border-radius: 10px 10px 0 0;
-    width: 20%;
     display: flex;
     justify-content: center;
     color: $pd-color1;
+    cursor: pointer;
   }
 }

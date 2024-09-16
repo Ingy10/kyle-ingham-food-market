@@ -1,3 +1,109 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
 .list-main {
-  background-color: peru;
+  background-color: $pd-color3-opaque;
+  // padding-top: 0.5rem;
+  &__list-section {
+    border-radius: 25px 25px 0 0;
+    background-color: $sd-color2;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+  }
+  &__list-titles {
+    display: flex;
+    width: 100%;
+    padding-bottom: 0.3rem;
+  }
+  &__title {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    &--1 {
+      width: 40%;
+    }
+    &--3,
+    &--4 {
+      width: 16%;
+    }
+    &--2,
+    &--5 {
+      width: 14%;
+    }
+  }
+  &__title-text {
+    width: 100%;
+    text-align: center;
+  }
+  &__title-category {
+    width: 2rem;
+  }
+  &__list {
+    width: 100%;
+    border-bottom: 1px solid $pd-color1;
+    display: flex;
+    padding: 0;
+  }
+  &__list-item-row {
+    display: flex;
+    width: 100%;
+    background-color: $pd-color2;
+    align-items: stretch;
+    border-top: 1px solid $pd-color1;
+  }
+  &__list-item-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &--1 {
+      width: 40%;
+    }
+    &--3,
+    &--4 {
+      width: 16%;
+    }
+    &--2,
+    &--5 {
+      width: 14%;
+    }
+  }
+  &__list-item {
+    width: 100%;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    &--name {
+      padding-left: 0.5rem;
+      justify-content: flex-start;
+    }
+    &--category {
+      width: 2rem;
+    }
+    &--buy {
+      width: 2.5rem;
+    }
+  }
+  &__footer-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+  &__reset-button {
+    @include button(rgb(84, 178, 212), white, 2rem);
+  }
+  &__button-description {
+    padding-top: 0.5rem;
+    text-align: center;
+  }
+  &__foot-note {
+    padding-top: 2rem;
+    text-align: center;
+  }
 }

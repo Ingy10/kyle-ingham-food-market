@@ -1,5 +1,8 @@
 @use "./styles/partials/variables" as *;
 
+* {
+  box-sizing: border-box;
+}
 #root {
   margin: 0;
   font-family: $default-font-stack;
