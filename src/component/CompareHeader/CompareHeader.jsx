@@ -1,12 +1,15 @@
 import "./CompareHeader.scss";
-import cartWhite from "../../../assets/icons/cart-white.png";
-import listWhite from "../../../assets/icons/list-2-white.png";
-import settingsWhite from "../../../assets/icons/settings-white.png";
+import cartWhite from "../../assets/icons/cart-white.png";
+import listWhite from "../../assets/icons/list-2-white.png";
+import settingsWhite from "../../assets/icons/settings-white.png";
+import basketWeave from "../../assets/images/basket-weave.jpg";
 
 function CompareHeader() {
   return (
     <>
       <header className="compare-header">
+        <img className="compare-header__background-image" src={basketWeave} />
+        <div className="compare-header__overlay"></div>
         <div className="compare-header__container-nav">
           <div className="compare-header__wrapper-icon">
             <img

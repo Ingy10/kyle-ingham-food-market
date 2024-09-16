@@ -1,6 +1,6 @@
 import "./GroceryListPage.scss";
-import ListHeader from "../../component/list-view/ListHeader/ListHeader";
-import ListMain from "../../component/list-view/ListMain/ListMain";
+import ListHeader from "../../component/ListHeader/ListHeader";
+import ListMain from "../../component/ListMain/ListMain";
 
 function GroceryListPage() {
   return (

@@ -1,13 +1,28 @@
-@use "../../../styles/partials/variables" as *;
+@use "../../styles/partials/variables" as *;
 
 .compare-header {
-  background-color: $pd-color1;
+  // background-color: $pd-color1;
   color: $pd-color2;
   border-bottom: 4px solid $pd-color3;
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
+  position: relative;
+  overflow: hidden;
+  &__background-image {
+    width: 100%;
+    position: absolute;
+    z-index: -1;
+  }
+  &__overlay {
+    background-color: $pd-color1;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.8;
+  }
   &__container-nav {
     display: flex;
     justify-content: space-between;
@@ -20,12 +35,10 @@
     text-align: center;
   }
   &__wrapper-icon {
-    width: 10%;
     padding-left: 0.5rem;
   }
   &__wrapper-list {
-    width: 10%;
-    padding-left: 0.5rem;
+    padding-right: 0.5rem;
   }
   &__icon-left {
     width: 2.7rem;
