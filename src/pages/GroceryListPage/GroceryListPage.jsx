@@ -5,7 +5,6 @@ import ListMain from "../../component/ListMain/ListMain";
 function GroceryListPage() {
   return (
     <>
-      <h1>Grocery List Page</h1>
       <ListHeader />
       <ListMain />
     </>

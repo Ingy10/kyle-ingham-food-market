@@ -1,7 +1,7 @@
 @use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
 
 .compare-header {
-  // background-color: $pd-color1;
   color: $pd-color2;
   border-bottom: 4px solid $pd-color3;
   display: flex;
@@ -27,9 +27,12 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
   }
   &__title {
     text-align: center;
+    padding-top: 0.5rem;
   }
   &__subtitle {
     text-align: center;
@@ -45,9 +48,13 @@
     padding: 0;
     margin-bottom: -0.5rem;
   }
+  &__list-link {
+    text-decoration: none;
+  }
   &__icon-text {
     text-align: right;
     max-width: 2.7rem;
+    color: white;
   }
   &__icon-right {
     width: 2rem;
@@ -57,13 +64,10 @@
     width: 66%;
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
+    position: relative;
   }
   &__search-bar {
-    border-radius: 25px;
-    border: none;
     width: 100%;
-    font-size: 1.5rem;
-    padding: 0.5rem;
-    padding-left: 1.5rem;
+    @include search-bar;
   }
 }

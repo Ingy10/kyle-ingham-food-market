@@ -1,8 +1,9 @@
 import "./CompareHeader.scss";
 import cartWhite from "../../assets/icons/cart-white.png";
 import listWhite from "../../assets/icons/list-2-white.png";
-import settingsWhite from "../../assets/icons/settings-white.png";
 import basketWeave from "../../assets/images/basket-weave.jpg";
+import searchBlack from "../../assets/icons/search-black.png";
+import { Link } from "react-router-dom";
 
 function CompareHeader() {
   return (
@@ -11,14 +12,16 @@ function CompareHeader() {
         <img className="compare-header__background-image" src={basketWeave} />
         <div className="compare-header__overlay"></div>
         <div className="compare-header__container-nav">
-          <div className="compare-header__wrapper-icon">
-            <img
-              className="compare-header__icon-left"
-              src={cartWhite}
-              alt="shopping list"
-            />
-            <p className="compare-header__icon-text">LIST</p>
-          </div>
+          <Link className="compare-header__list-link" to={"/grocery-list"}>
+            <div className="compare-header__wrapper-icon">
+              <img
+                className="compare-header__icon-left"
+                src={cartWhite}
+                alt="shopping list"
+              />
+              <p className="compare-header__icon-text">LIST</p>
+            </div>
+          </Link>
           <div className="compare-header__title-container">
             <h1 className="compare-header__title">Food Market</h1>
             <h3 className="compare-header__sub-title">
@@ -39,7 +42,7 @@ function CompareHeader() {
             type="text"
             placeholder="Search Food Items..."
           />
-          <img className="compare-header__search-icon" src="" />
+          <img className="compare-header__search-bar--icon" src={searchBlack} />
         </div>
       </header>
     </>
