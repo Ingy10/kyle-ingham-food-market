@@ -77,4 +77,16 @@
     margin-left: 1rem;
     @include button($sd-color1, $pd-color2, 2rem);
   }
+  &__list-tabs {
+    width: 100%;
+  }
+  &__tab {
+    background-color: $pd-color3;
+    padding: 0.5rem 1rem;
+    border-radius: 10px 10px 0 0;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    color: $pd-color1;
+  }
 }

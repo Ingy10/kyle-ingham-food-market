@@ -35,7 +35,7 @@ function ListHeader() {
             />
           </div>
         </div>
-        <form className="list-header__add-item-form">
+        <form className="list-header__add-item-form" onSubmit="">
           <div className="list-header__search-container">
             <input
               className="list-header__search-bar"
@@ -44,8 +44,15 @@ function ListHeader() {
             />
             <img className="list-header__search-bar--icon" src={searchBlack} />
           </div>
-          <button className="list-header__add-button">ADD</button>
+          <button className="list-header__add-button" type="submit">
+            ADD
+          </button>
         </form>
+        <div className="list-header__list-tabs">
+          <div className="list-header__tab">
+            <h3 className="list-header__tab-title">Groceries</h3>
+          </div>
+        </div>
       </header>
     </>
   );
