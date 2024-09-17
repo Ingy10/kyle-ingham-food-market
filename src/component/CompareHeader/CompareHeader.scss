@@ -3,13 +3,12 @@
 
 .compare-header {
   color: $pd-color2;
-  border-bottom: 4px solid $pd-color3;
   display: flex;
   flex-direction: column;
   width: 100%;
   align-items: center;
   position: relative;
-  overflow: hidden;
+  padding-bottom: 0.5rem;
   &__background-image {
     width: 100%;
     position: absolute;
@@ -19,7 +18,7 @@
     background-color: $pd-color1;
     position: absolute;
     width: 100%;
-    height: 100%;
+    height: 250%;
     z-index: -1;
     opacity: 0.8;
   }

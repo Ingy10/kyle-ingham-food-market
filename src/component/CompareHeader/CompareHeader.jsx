@@ -3,13 +3,14 @@ import cartWhite from "../../assets/icons/cart-white.png";
 import listWhite from "../../assets/icons/list-2-white.png";
 import basketWeave from "../../assets/images/basket-weave.jpg";
 import searchBlack from "../../assets/icons/search-black.png";
+import produceSpread from "../../assets/images/produce-spread.jpg";
 import { Link } from "react-router-dom";
 
 function CompareHeader() {
   return (
     <>
       <header className="compare-header">
-        <img className="compare-header__background-image" src={basketWeave} />
+        <img className="compare-header__background-image" src={produceSpread} />
         <div className="compare-header__overlay"></div>
         <div className="compare-header__container-nav">
           <Link className="compare-header__list-link" to={"/grocery-list"}>

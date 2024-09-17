@@ -1,0 +1,147 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.compare-main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__tool-section {
+    padding-bottom: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    background-color: $pd-color3;
+    border-radius: 50px 50px 0 0;
+  }
+  &__selected-item-container {
+    display: flex;
+  }
+  &__selected-item {
+    background-color: $sd-color1;
+    color: $pd-color2;
+    padding: 1rem 1.5rem;
+    border-radius: 20px 0 0 0;
+  }
+  &__selected-item-chosen {
+    padding: 1rem 1.5rem;
+    background-color: $pd-color2;
+    color: $pd-color1;
+    border-radius: 0 20px 0 0;
+  }
+  &__compare-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 1rem;
+    background-color: $sd-color2;
+    border-radius: 50px 50px 0 0;
+  }
+  &__details-summary {
+    color: $pd-color1;
+    padding: 0.5rem 2rem 0;
+    margin-top: 0.5rem;
+    cursor: pointer;
+    width: 90%;
+    &--2 {
+      border-top: 2px solid $sd-color1;
+    }
+  }
+  &__inputs-1,
+  &__inputs-2 {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+  &__inputs-1 {
+    margin-bottom: 0.5rem;
+  }
+  &__inputs-2 {
+    justify-content: space-evenly;
+    margin-bottom: 0.5rem;
+  }
+  &__input {
+    background-color: $pd-color2-opaque;
+    @include search-bar;
+    & {
+      padding-left: 1rem;
+      width: 30%;
+      border: 2px solid $sd-color1;
+    }
+    &--unit-1,
+    &--unit-2 {
+      max-width: 6rem;
+      padding-left: 0.5rem;
+    }
+  }
+  &__text {
+    color: $pd-color1;
+    font-size: 1.5rem;
+    &--1 {
+      width: 100%;
+      text-align: center;
+    }
+  }
+  &__button-compare {
+    margin-top: 0.5rem;
+    margin-bottom: 0.3rem;
+    @include button($sd-color3, $pd-color2, 2rem);
+    & {
+      border-radius: 10px;
+    }
+  }
+  &__odometer-container {
+    background-color: $pd-color1;
+    padding: 2rem 1rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  &__odometer-image {
+    width: 90%;
+    max-width: 33rem;
+    filter: sepia(50%);
+  }
+  &__odometer-percent {
+    position: absolute;
+    bottom: 25%;
+    font-size: 4.5rem;
+    text-shadow: 1px 0px 5px $pd-color2;
+    filter: sepia(20%);
+  }
+  &__needle {
+    height: 35%;
+    width: 0.5rem;
+    border-radius: 5px;
+    background-color: peru;
+    position: absolute;
+    bottom: 50%;
+    transform-origin: 100% 100%;
+    box-shadow: 2px 0px 8px $sd-color2-opaque;
+  }
+  &__needle-base {
+    height: 2rem;
+    width: 2rem;
+    position: absolute;
+    background-color: grey;
+    border-radius: 100px;
+    bottom: 17rem;
+    bottom: 47%;
+  }
+  &__text-market-value {
+    color: $pd-color2;
+    font-size: 1.2rem;
+  }
+  &__text-savings {
+    color: $pd-color2;
+  }
+}
