@@ -37,14 +37,20 @@ function CompareHeader() {
             />
           </div>
         </div>
-        <div className="compare-header__search-container">
-          <input
-            className="compare-header__search-bar"
-            type="text"
-            placeholder="Search Food Items..."
-          />
-          <img className="compare-header__search-bar--icon" src={searchBlack} />
-        </div>
+        <form className="compare-header__form" onSubmit="">
+          <div className="compare-header__search-container">
+            <input
+              className="compare-header__search-bar"
+              type="text"
+              placeholder="Search Items..."
+            />
+            <img
+              className="compare-header__search-bar--icon"
+              src={searchBlack}
+            />
+          </div>
+          <button className="compare-header__button">SELECT</button>
+        </form>
       </header>
     </>
   );

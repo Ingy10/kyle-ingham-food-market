@@ -31,9 +31,9 @@
   }
   &__title {
     text-align: center;
-    padding-top: 0.5rem;
+    padding-top: 0.8rem;
   }
-  &__subtitle {
+  &__sub-title {
     text-align: center;
   }
   &__wrapper-icon {
@@ -59,6 +59,11 @@
     width: 2rem;
     padding-top: 0.5rem;
   }
+  &__form {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
   &__search-container {
     width: 66%;
     padding-top: 0.5rem;
@@ -68,5 +73,11 @@
   &__search-bar {
     width: 100%;
     @include search-bar;
+  }
+  &__button {
+    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
+    margin-left: 2%;
+    @include button($sd-color1, $pd-color2, 1.5rem);
   }
 }

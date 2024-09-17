@@ -1,10 +1,10 @@
 import "./CompareMain.scss";
-import zigZagArrowWhite from "../../assets/icons/zigzag-arrow-white.png";
+import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
 import produceSpread from "../../assets/images/produce-spread.jpg";
 import odometer from "../../assets/images/speedometer.png";
 
 function CompareMain() {
-  const rotate = 45;
+  const rotate =-30;
   const savingsPercentage = 5;
   const savingsPerKg = 1.38;
   return (
@@ -90,60 +90,62 @@ function CompareMain() {
             </p>
           </div>
         </section>
-        <section className="compare-main__list">
-          <div className="compare-main__titles">
-            <div className="compare-main__title compare-main__title--1">
-              <h3 className="compare-main__title-text">Items</h3>
+        <section className="compare-main__list-section">
+          <div className="compare-main__list-background">
+            <div className="compare-main__titles">
+              <div className="compare-main__title compare-main__title--1">
+                <h3 className="compare-main__title-text">Items</h3>
+              </div>
+              <div className="compare-main__title compare-main__title--2">
+                <img
+                  className="compare-main__title-image"
+                  src={zigZagArrowBlack}
+                />
+              </div>
+              <div className="compare-main__title compare-main__title--3">
+                <h3 className="compare-main__title-text">
+                  Market
+                  <br />
+                  $/kg
+                </h3>
+              </div>
+              <div className="compare-main__title compare-main__title--4">
+                <h3 className="compare-main__title-text">
+                  My
+                  <br />
+                  $/kg
+                </h3>
+              </div>
             </div>
-            <div className="compare-main__title compare-main__title--2">
-              <img
-                className="compare-main__title-image"
-                src={zigZagArrowWhite}
-              />
-            </div>
-            <div className="compare-main__title compare-main__title--3">
-              <h3 className="compare-main__title-text">
-                Market
-                <br />
-                $/kg
-              </h3>
-            </div>
-            <div className="compare-main__title compare-main__title--4">
-              <h3 className="compare-main__title-text">
-                My
-                <br />
-                $/kg
-              </h3>
-            </div>
+            <ul className="compare-main__list">
+              <li className="compare-main__list-row">
+                <div className="compare-main__list-item-container compare-main__list-item-container--1">
+                  <p className="compare-main__list-item compare-main__list-item--name">
+                    Chicken
+                  </p>
+                </div>
+                <div className="compare-main__list-item-container compare-main__list-item-container--2">
+                  <p className="compare-main__list-item compare-main__list-item--savings">
+                    -5%
+                  </p>
+                </div>
+                <div className="compare-main__list-item-container compare-main__list-item-container--3">
+                  <p className="compare-main__list-item compare-main__list-item--market-price">
+                    $1.42
+                  </p>
+                </div>
+                <div className="compare-main__list-item-container compare-main__list-item-container--4">
+                  <p className="compare-main__list-item compare-main__list-item--my-price">
+                    $1.50
+                  </p>
+                </div>
+              </li>
+            </ul>
+            <p className="compare-main__footnote">
+              *Food prices available only for items tracked in provincial CPI
+              report
+            </p>
           </div>
-          <ul className="compare-main__list">
-            <li className="compare-main__list-row">
-              <div className="compare-main__list-item-container compare-main__list-item-container--1">
-                <p className="compare-main__list-item compare-main__list-item--name">
-                  Chicken
-                </p>
-              </div>
-              <div className="compare-main__list-item-container compare-main__list-item-container--2">
-                <p className="compare-main__list-item compare-main__list-item--savings">
-                  -5%
-                </p>
-              </div>
-              <div className="compare-main__list-item-container compare-main__list-item-container--3">
-                <p className="compare-main__list-item compare-main__list-item--market-price">
-                  $1.42
-                </p>
-              </div>
-              <div className="compare-main__list-item-container compare-main__list-item-container--4">
-                <p className="compare-main__list-item compare-main__list-item--my-price">
-                  $1.50
-                </p>
-              </div>
-            </li>
-          </ul>
-          <p className="compare-main__footnote">
-            *Food prices available only for items tracked in provincial CPI
-            report
-          </p>
         </section>
       </main>
     </>
