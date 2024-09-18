@@ -80,7 +80,7 @@ function CompareHeader({
               name="search"
               onChange={() => handleInputChange(event)}
               value={searchTerm}
-              autocomplete="off"
+              autoComplete="off"
             />
             <img
               className="compare-header__search-bar--icon"
