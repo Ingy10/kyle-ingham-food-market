@@ -1,21 +1,29 @@
 import "./CompareMain.scss";
 import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
-import produceSpread from "../../assets/images/produce-spread.jpg";
 import odometer from "../../assets/images/speedometer.png";
+import { useState, useEffect } from "react";
 
-function CompareMain() {
-  const rotate =-30;
+function CompareMain({ SelectedItem }) {
+  const [selectedItem, setSelectedItem] = useState("");
+  const rotate = -30;
   const savingsPercentage = 5;
   const savingsPerKg = 1.38;
+
+  // assigns selected item once change is detected from select form
+  useEffect(() => {
+    setSelectedItem(SelectedItem);
+    console.log(SelectedItem);
+  }, [SelectedItem]);
+
   return (
     <>
       <main className="compare-main">
         <div className="compare-main__selected-item-container">
           <h3 className="compare-main__selected-item">Selected Item:</h3>
-          <h3 className="compare-main__selected-item-chosen">Chicken</h3>
+          <h3 className="compare-main__selected-item-chosen">{selectedItem}</h3>
         </div>
         <section className="compare-main__tool-section">
-          <form className="compare-main__compare-form" onSubmit="">
+          <form className="compare-main__compare-form">
             <h4 className="compare-main__details-summary compare-main__details-summary--1">
               Use this option if you do not have an explicit price per weight
               unit:

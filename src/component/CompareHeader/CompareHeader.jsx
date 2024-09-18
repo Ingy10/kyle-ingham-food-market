@@ -1,12 +1,43 @@
 import "./CompareHeader.scss";
 import cartWhite from "../../assets/icons/cart-white.png";
 import listWhite from "../../assets/icons/list-2-white.png";
-import basketWeave from "../../assets/images/basket-weave.jpg";
 import searchBlack from "../../assets/icons/search-black.png";
 import produceSpread from "../../assets/images/produce-spread.jpg";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
-function CompareHeader({ SearchItems }) {
+function CompareHeader({
+  SearchItems,
+  SearchItemsList,
+  SelectItemToCompare,
+  RemoveList,
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  // function to set search term
+  const searchInput = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  // function to select item from dropdown filter
+  const setItemName = (item) => {
+    setSearchTerm(item);
+    RemoveList();
+  };
+
+  // function to handle input changes in the search-bar
+  const handleInputChange = (event) => {
+    searchInput(event);
+    SearchItems(event);
+  };
+
+  // function for form submission
+  const searchFormSubmit = (event) => {
+    event.preventDefault();
+    SelectItemToCompare(event);
+    setSearchTerm("");
+  };
+
   return (
     <>
       <header className="compare-header">
@@ -37,20 +68,39 @@ function CompareHeader({ SearchItems }) {
             />
           </div>
         </div>
-        <form className="compare-header__form" onSubmit="">
+        <form
+          className="compare-header__form"
+          onSubmit={() => searchFormSubmit(event)}
+        >
           <div className="compare-header__search-container">
             <input
               className="compare-header__search-bar"
               type="text"
               placeholder="Search Items..."
-              onChange={() => SearchItems(event)}
+              name="search"
+              onChange={() => handleInputChange(event)}
+              value={searchTerm}
+              autocomplete="off"
             />
             <img
               className="compare-header__search-bar--icon"
               src={searchBlack}
             />
+            <ul className="compare-header__search-items-list">
+              {SearchItemsList.map((item) => (
+                <li
+                  className="compare-header__search-item"
+                  key={item.id}
+                  onClick={() => setItemName(item.item_name)}
+                >
+                  {item.item_name}
+                </li>
+              ))}
+            </ul>
           </div>
-          <button className="compare-header__button">SELECT</button>
+          <button className="compare-header__button" type="submit">
+            SELECT
+          </button>
         </form>
       </header>
     </>

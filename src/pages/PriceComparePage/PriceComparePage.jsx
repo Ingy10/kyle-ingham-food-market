@@ -9,8 +9,11 @@ const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
 function PriceComparePage() {
   const [allItems, setAllItems] = useState([]);
+  const [searchItemsList, setSearchItemsList] = useState([]);
+  const [selectedItem, setSelectedItem] = useState("");
   const { province, userId } = useParams();
 
+  // get request to get all cpi items for a given province
   const getAllProvincialCpiItems = async (province) => {
     try {
       province = province.toLowerCase();
@@ -25,22 +28,47 @@ function PriceComparePage() {
     }
   };
 
+  // runs initial get request once when user goes to compare page
   useEffect(() => {
     getAllProvincialCpiItems(province);
   }, []);
 
+  // search bar filter function
   const searchItems = (event) => {
     console.log(event.target.value);
-    const foundItem = allItems.find(
-      (item) => event.target.value.toLowerCase() == item.item_name.toLowerCase()
+    const foundItem = allItems.filter((item) =>
+      item.item_name.toLowerCase().includes(event.target.value.toLowerCase())
     );
-    console.log(foundItem);
+    let searchItemNames = [];
+    let searchObjs = [];
+    if (event.target.value !== "") {
+      searchItemNames = foundItem.map((name) => name.item_name);
+      searchObjs = foundItem.map((item) => item);
+    }
+    setSearchItemsList(searchObjs);
+  };
+
+  // selected search item form submit function
+  const selectItemToCompare = (event) => {
+    event.preventDefault();
+    setSelectedItem(event.target.search.value);
+    setSearchItemsList([]);
+  };
+
+  // function to remove dropdown list when item is selected
+  const removeList = () => {
+    setSearchItemsList([]);
   };
 
   return (
     <>
-      <CompareHeader SearchItems={searchItems} />
-      <CompareMain />
+      <CompareHeader
+        SearchItems={searchItems}
+        SearchItemsList={searchItemsList}
+        SelectItemToCompare={selectItemToCompare}
+        RemoveList={removeList}
+      />
+      <CompareMain SelectedItem={selectedItem} />
     </>
   );
 }

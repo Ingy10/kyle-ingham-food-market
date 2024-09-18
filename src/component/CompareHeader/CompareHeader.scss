@@ -80,4 +80,22 @@
     margin-left: 2%;
     @include button($sd-color1, $pd-color2, 1.5rem);
   }
+  &__search-items-list {
+    background-color: $pd-color2-opaque;
+    color: $pd-color1;
+    position: absolute;
+    z-index: 1;
+    width: 90%;
+    left: 5%;
+    list-style-type: none;
+    padding: 0;
+  }
+  &__search-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    border-bottom: 1px solid $pd-color1;
+    &:hover {
+      background-color: $pd-color2;
+    }
+  }
 }
