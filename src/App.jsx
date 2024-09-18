@@ -8,7 +8,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/compare" element={<PriceComparePage />}></Route>
+          <Route
+            path="/compare/:userId/:province"
+            element={<PriceComparePage />}
+          ></Route>
           <Route path="/grocery-list" element={<GroceryListPage />}></Route>
         </Routes>
       </BrowserRouter>

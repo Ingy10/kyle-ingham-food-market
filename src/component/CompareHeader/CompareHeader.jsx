@@ -6,7 +6,7 @@ import searchBlack from "../../assets/icons/search-black.png";
 import produceSpread from "../../assets/images/produce-spread.jpg";
 import { Link } from "react-router-dom";
 
-function CompareHeader() {
+function CompareHeader({ SearchItems }) {
   return (
     <>
       <header className="compare-header">
@@ -43,6 +43,7 @@ function CompareHeader() {
               className="compare-header__search-bar"
               type="text"
               placeholder="Search Items..."
+              onChange={() => SearchItems(event)}
             />
             <img
               className="compare-header__search-bar--icon"
