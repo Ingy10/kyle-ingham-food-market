@@ -12,7 +12,7 @@ function ListHeader() {
         <img className="list-header__background-image" src={produceDark} />
         <div className="list-header__overlay"></div>
         <div className="list-header__container-nav">
-          <Link className="list-header__back-link" to={"/"}>
+          <Link className="list-header__back-link" to={"/compare"}>
             <div className="list-header__wrapper-icon">
               <img
                 className="list-header__icon-left"
