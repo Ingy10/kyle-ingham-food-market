@@ -2,12 +2,15 @@ import "./CompareMain.scss";
 import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
 import odometer from "../../assets/images/speedometer.png";
 import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
 
 function CompareMain({ SelectedItem, AllItems }) {
   const [chosenItem, setChosenItem] = useState("");
   const [savingsPerKg, setSavingsPerKg] = useState("");
   const [savingsPercentage, setSavingsPercentage] = useState("");
   const [rotate, setRotate] = useState("");
+  const [weightUnit, setWeightUnit] = useState("");
+  const { register, reset } = useForm();
   // const rotate = savingsPercentage * 2;
   // const savingsPercentage = 5;
   // const savingsPerKg = 1.38;
@@ -28,13 +31,17 @@ function CompareMain({ SelectedItem, AllItems }) {
   useEffect(() => {
     setChosenItem(SelectedItem);
     console.log(SelectedItem);
+    reset();
   }, [SelectedItem]);
 
   // Comparison function
   const itemToCompare = (event) => {
     event.preventDefault();
-    const itemObj = AllItems.find((item) => item.item_name === chosenItem);
+    const itemObj = AllItems.find(
+      (item) => item.item_name.toLowerCase() === chosenItem.toLowerCase()
+    );
     console.log(itemObj);
+    setWeightUnit(itemObj.unit_of_measure);
     const price1 = event.target.price1.value;
     const weight1 = event.target.weight1.value;
     const unit1 = event.target.unit1.value;
@@ -49,7 +56,11 @@ function CompareMain({ SelectedItem, AllItems }) {
       alert(
         "Item not listed in CPI database.  Please select a similar item from the list that populates below the search bar."
       );
-    } else if ((!price1 && !price2) || (price1 && !weight1)) {
+    } else if (
+      (!price1 && !price2) ||
+      (price1 && !weight1) ||
+      (price1 && price2 && weight1)
+    ) {
       alert(
         "please fill out price and weight information for one of the two options."
       );
@@ -63,16 +74,69 @@ function CompareMain({ SelectedItem, AllItems }) {
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
-      }
-      if (unit1 === "kg" && itemObj.unit_of_measure === "kg") {
-        let pricePerKg = price1 / weight1;
+      } else if (
+        (unit1 === "kg" && itemObj.unit_of_measure === "kg") ||
+        (unit1 === "unit" && itemObj.unit_of_measure === "unit") ||
+        (unit1 === "litre" && itemObj.unit_of_measure === "litre") ||
+        (unit1 === "dozen" && itemObj.unit_of_measure === "dozen")
+      ) {
+        let pricePer = price1 / weight1;
+        setSavingsPerKg((pricePer - itemObj.market_price).toFixed(2));
+        setSavingsPercentage(
+          ((pricePer / itemObj.market_price - 1) * 100).toFixed(2)
+        );
+      } else if (unit1 === "100g" && itemObj.unit_of_measure === "kg") {
+        let pricePerKg = (price1 / weight1) * 10;
         setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
+      } else if (unit1 === "ml" && itemObj.unit_of_measure === "litre") {
+        let pricePerLitre = (price1 / weight1) * 1000;
+        setSavingsPerKg((pricePerLitre - itemObj.market_price).toFixed(2));
+        setSavingsPercentage(
+          ((pricePerLitre / itemObj.market_price - 1) * 100).toFixed(2)
+        );
+      } else {
+        alert(
+          `Pricing data unavailable for this weight type.  ${itemObj.item_name} pricing data is available in ${itemObj.unit_of_measure}s`
+        );
       }
     } else if (!price1 && !weight1 && price2) {
       console.log("compare line 2");
+      if (unit2 === "lb" && itemObj.unit_of_measure === "kg") {
+        let pricePerKg = price2 * 2.204623;
+        setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
+        setSavingsPercentage(
+          ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
+        );
+      } else if (
+        (unit2 === "kg" && itemObj.unit_of_measure === "kg") ||
+        (unit2 === "unit" && itemObj.unit_of_measure === "unit") ||
+        (unit2 === "litre" && itemObj.unit_of_measure === "litre") ||
+        (unit2 === "dozen" && itemObj.unit_of_measure === "dozen")
+      ) {
+        setSavingsPerKg((price2 - itemObj.market_price).toFixed(2));
+        setSavingsPercentage(
+          ((price2 / itemObj.market_price - 1) * 100).toFixed(2)
+        );
+      } else if (unit2 === "100g" && itemObj.unit_of_measure === "kg") {
+        let pricePerKg = price2 * 10;
+        setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
+        setSavingsPercentage(
+          ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
+        );
+      } else {
+        alert(
+          `Pricing data unavailable for this weight type.  ${itemObj.item_name} pricing data is available in ${itemObj.unit_of_measure}s`
+        );
+      }
+    }
+    if (event.target.price2.value) {
+      event.target.price1.value = "";
+      event.target.weight1.value = "";
+    } else if (event.target.price1.value && event.target.unit1.value) {
+      event.target.price2.value = "";
     }
   };
 
@@ -98,12 +162,14 @@ function CompareMain({ SelectedItem, AllItems }) {
                 type="text"
                 placeholder="Price"
                 name="price1"
+                {...register("price1")}
               />
               <input
                 className="compare-main__input compare-main__input--weight"
                 type="text"
                 placeholder="Weight"
                 name="weight1"
+                {...register("weight1")}
               />
               <select
                 className="compare-main__input compare-main__input--unit-1"
@@ -114,7 +180,9 @@ function CompareMain({ SelectedItem, AllItems }) {
                 <option value="kg">&nbsp; kg</option>
                 <option value="100g">100g</option>
                 <option value="unit">unit</option>
+                <option value="ml">&nbsp; ml</option>
                 <option value="litre">litre</option>
+                <option value="dozen">dozen</option>
               </select>
             </div>
             <p className="compare-main__text compare-main__text--1">OR</p>
@@ -127,6 +195,7 @@ function CompareMain({ SelectedItem, AllItems }) {
                 type="text"
                 placeholder="Price"
                 name="price2"
+                {...register("price2")}
               />
               <select
                 className="compare-main__input compare-main__input--unit-2"
@@ -138,6 +207,7 @@ function CompareMain({ SelectedItem, AllItems }) {
                 <option value="100g">100g</option>
                 <option value="unit">unit</option>
                 <option value="litre">litre</option>
+                <option value="dozen">dozen</option>
               </select>
             </div>
             <button className="compare-main__button-compare" type="submit">
@@ -167,7 +237,7 @@ function CompareMain({ SelectedItem, AllItems }) {
             <p className="compare-main__text-savings">
               {savingsPercentage <= 0
                 ? `*You would spend $${savingsPerKg}/kg below market price!`
-                : `*You would spend $${savingsPerKg} per kg above market price`}
+                : `*You would spend $${savingsPerKg} per ${weightUnit} above market price`}
             </p>
           </div>
         </section>
