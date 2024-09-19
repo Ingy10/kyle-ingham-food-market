@@ -3,6 +3,7 @@ import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
 import odometer from "../../assets/images/speedometer.png";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { v4 as uuidv4 } from "uuid";
 
 function CompareMain({ SelectedItem, AllItems }) {
   const [chosenItem, setChosenItem] = useState("");
@@ -10,10 +11,8 @@ function CompareMain({ SelectedItem, AllItems }) {
   const [savingsPercentage, setSavingsPercentage] = useState("");
   const [rotate, setRotate] = useState("");
   const [weightUnit, setWeightUnit] = useState("");
+  const [itemHistory, setItemHistory] = useState([]);
   const { register, reset } = useForm();
-  // const rotate = savingsPercentage * 2;
-  // const savingsPercentage = 5;
-  // const savingsPerKg = 1.38;
 
   // sets the degree to which the needle will rotate on the odometer
   useEffect(() => {
@@ -30,17 +29,36 @@ function CompareMain({ SelectedItem, AllItems }) {
   // assigns selected item once change is detected from form and re-renders page
   useEffect(() => {
     setChosenItem(SelectedItem);
-    console.log(SelectedItem);
     reset();
   }, [SelectedItem]);
 
   // Comparison function
   const itemToCompare = (event) => {
     event.preventDefault();
-    const itemObj = AllItems.find(
-      (item) => item.item_name.toLowerCase() === chosenItem.toLowerCase()
-    );
-    console.log(itemObj);
+    const itemObj = {
+      ...AllItems.find(
+        (item) => item.item_name.toLowerCase() === chosenItem.toLowerCase()
+      ),
+    };
+
+    // Validation
+    if (!chosenItem) {
+      alert(
+        "Please select an item using the search bar above before pushing compare button."
+      );
+      return;
+    } else if (!itemObj) {
+      alert(
+        "Please select an item to compare by using the search bar.  The list of available items will populate once you begin typing."
+      );
+    } else if (chosenItem === "") {
+      alert(
+        "Please select an item to compare by using the search bar.  The list of available items will populate once you begin typing."
+      );
+      return;
+    }
+
+    // Assign variables
     setWeightUnit(itemObj.unit_of_measure);
     const price1 = event.target.price1.value;
     const weight1 = event.target.weight1.value;
@@ -48,15 +66,8 @@ function CompareMain({ SelectedItem, AllItems }) {
     const price2 = event.target.price2.value;
     const unit2 = event.target.unit2.value;
 
-    if (chosenItem === "") {
-      alert(
-        "Please select an item to compare by using the search bar.  The list of available items will populate once you begin typing."
-      );
-    } else if (!itemObj) {
-      alert(
-        "Item not listed in CPI database.  Please select a similar item from the list that populates below the search bar."
-      );
-    } else if (
+    // Compare price depending on available prices/units of measurement
+    if (
       (!price1 && !price2) ||
       (price1 && !weight1) ||
       (price1 && price2 && weight1)
@@ -64,16 +75,20 @@ function CompareMain({ SelectedItem, AllItems }) {
       alert(
         "please fill out price and weight information for one of the two options."
       );
+      return;
     } else if (price1 && weight1 && !price2) {
-      console.log("compare line 1");
       if (unit1 === "lb" && itemObj.unit_of_measure === "kg") {
-        console.log("weight in lbs");
         let pricePerLb = price1 / weight1;
         let pricePerKg = pricePerLb * 2.204623;
         setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePerKg.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePerKg / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else if (
         (unit1 === "kg" && itemObj.unit_of_measure === "kg") ||
         (unit1 === "unit" && itemObj.unit_of_measure === "unit") ||
@@ -85,31 +100,51 @@ function CompareMain({ SelectedItem, AllItems }) {
         setSavingsPercentage(
           ((pricePer / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePer.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePer / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else if (unit1 === "100g" && itemObj.unit_of_measure === "kg") {
         let pricePerKg = (price1 / weight1) * 10;
         setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePerKg.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePerKg / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else if (unit1 === "ml" && itemObj.unit_of_measure === "litre") {
         let pricePerLitre = (price1 / weight1) * 1000;
         setSavingsPerKg((pricePerLitre - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerLitre / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePerLitre.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePerLitre / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else {
         alert(
           `Pricing data unavailable for this weight type.  ${itemObj.item_name} pricing data is available in ${itemObj.unit_of_measure}s`
         );
+        return;
       }
     } else if (!price1 && !weight1 && price2) {
-      console.log("compare line 2");
       if (unit2 === "lb" && itemObj.unit_of_measure === "kg") {
         let pricePerKg = price2 * 2.204623;
         setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePerKg.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePerKg / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else if (
         (unit2 === "kg" && itemObj.unit_of_measure === "kg") ||
         (unit2 === "unit" && itemObj.unit_of_measure === "unit") ||
@@ -120,16 +155,27 @@ function CompareMain({ SelectedItem, AllItems }) {
         setSavingsPercentage(
           ((price2 / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = (price2 - itemObj.market_price).toFixed(2);
+        itemObj.percentage_savings = (
+          (price2 / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else if (unit2 === "100g" && itemObj.unit_of_measure === "kg") {
         let pricePerKg = price2 * 10;
         setSavingsPerKg((pricePerKg - itemObj.market_price).toFixed(2));
         setSavingsPercentage(
           ((pricePerKg / itemObj.market_price - 1) * 100).toFixed(2)
         );
+        itemObj.my_price = pricePerKg.toFixed(2);
+        itemObj.percentage_savings = (
+          (pricePerKg / itemObj.market_price - 1) *
+          100
+        ).toFixed(2);
       } else {
         alert(
           `Pricing data unavailable for this weight type.  ${itemObj.item_name} pricing data is available in ${itemObj.unit_of_measure}s`
         );
+        return;
       }
     }
     if (event.target.price2.value) {
@@ -138,7 +184,19 @@ function CompareMain({ SelectedItem, AllItems }) {
     } else if (event.target.price1.value && event.target.unit1.value) {
       event.target.price2.value = "";
     }
+    const newObj = itemObj;
+
+    setItemHistory((prevArray) => [newObj, ...prevArray]);
   };
+
+  // function to keep recent history to last 5 searches
+  useEffect(() => {
+    if (itemHistory.length > 5) {
+      const newArray = itemHistory;
+      newArray.pop();
+      setItemHistory(newArray);
+    }
+  }, [itemHistory]);
 
   return (
     <>
@@ -256,41 +314,46 @@ function CompareMain({ SelectedItem, AllItems }) {
               <div className="compare-main__title compare-main__title--3">
                 <h3 className="compare-main__title-text">
                   Market
-                  <br />
-                  $/kg
+                  <br />$
                 </h3>
               </div>
               <div className="compare-main__title compare-main__title--4">
                 <h3 className="compare-main__title-text">
                   My
-                  <br />
-                  $/kg
+                  <br />$
                 </h3>
               </div>
             </div>
             <ul className="compare-main__list">
-              <li className="compare-main__list-row">
-                <div className="compare-main__list-item-container compare-main__list-item-container--1">
-                  <p className="compare-main__list-item compare-main__list-item--name">
-                    Chicken
-                  </p>
-                </div>
-                <div className="compare-main__list-item-container compare-main__list-item-container--2">
-                  <p className="compare-main__list-item compare-main__list-item--savings">
-                    -5%
-                  </p>
-                </div>
-                <div className="compare-main__list-item-container compare-main__list-item-container--3">
-                  <p className="compare-main__list-item compare-main__list-item--market-price">
-                    $1.42
-                  </p>
-                </div>
-                <div className="compare-main__list-item-container compare-main__list-item-container--4">
-                  <p className="compare-main__list-item compare-main__list-item--my-price">
-                    $1.50
-                  </p>
-                </div>
-              </li>
+              {itemHistory.map((item) => (
+                <li className="compare-main__list-row" key={uuidv4()}>
+                  <div className="compare-main__list-item-container compare-main__list-item-container--1">
+                    <p className="compare-main__list-item compare-main__list-item--name">
+                      {item.item_name}
+                    </p>
+                  </div>
+                  <div className="compare-main__list-item-container compare-main__list-item-container--2">
+                    <p
+                      className="compare-main__list-item compare-main__list-item--savings"
+                      style={{
+                        color: item.percentage_savings > 0 ? `red` : "green",
+                      }}
+                    >
+                      {item.percentage_savings}%
+                    </p>
+                  </div>
+                  <div className="compare-main__list-item-container compare-main__list-item-container--3">
+                    <p className="compare-main__list-item compare-main__list-item--market-price">
+                      {item.market_price} / {item.unit_of_measure}
+                    </p>
+                  </div>
+                  <div className="compare-main__list-item-container compare-main__list-item-container--4">
+                    <p className="compare-main__list-item compare-main__list-item--my-price">
+                      {item.my_price} / {item.unit_of_measure}
+                    </p>
+                  </div>
+                </li>
+              ))}
             </ul>
             <p className="compare-main__footnote">
               *Food prices available only for items tracked in provincial CPI
@@ -302,5 +365,6 @@ function CompareMain({ SelectedItem, AllItems }) {
     </>
   );
 }
+// }
 
 export default CompareMain;

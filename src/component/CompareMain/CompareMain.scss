@@ -122,9 +122,11 @@
   &__odometer-percent {
     position: absolute;
     bottom: 25%;
-    font-size: 4.5rem;
+    width: 60%;
+    font-size: clamp(2.2rem, 11vw, 4.5rem);
     text-shadow: 1px 0px 5px $pd-color2;
     filter: sepia(20%);
+    text-align: center;
   }
   &__needle {
     height: 35%;
@@ -206,6 +208,9 @@
     padding-bottom: 1rem;
     display: flex;
     justify-content: center;
+    align-items: center;
+    // white-space: normal;
+    // overflow-wrap: break-word;
     &--1 {
       width: 40%;
       justify-content: flex-start;
@@ -215,6 +220,13 @@
     &--4 {
       width: 20%;
     }
+  }
+  &__list-item {
+    // white-space: normal;
+    // overflow-wrap: break-word;
+    padding-left: 0.2rem;
+    padding-right: 0.2rem;
+    text-align: center;
   }
   &__footnote {
     background-color: $sd-color2;
