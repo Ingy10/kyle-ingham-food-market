@@ -48,7 +48,7 @@ function PriceComparePage() {
     setSearchItemsList(searchObjs);
   };
 
-  // selected search item form submit function
+  // selected search item from submit function
   const selectItemToCompare = (event) => {
     event.preventDefault();
     setSelectedItem(event.target.search.value);
@@ -68,7 +68,7 @@ function PriceComparePage() {
         SelectItemToCompare={selectItemToCompare}
         RemoveList={removeList}
       />
-      <CompareMain SelectedItem={selectedItem} />
+      <CompareMain SelectedItem={selectedItem} AllItems={allItems} />
     </>
   );
 }
