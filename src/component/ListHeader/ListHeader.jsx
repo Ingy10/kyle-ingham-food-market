@@ -4,12 +4,50 @@ import produceDark from "../../assets/images/produce-black.jpg";
 import arrowBack from "../../assets/icons/back-arrow.png";
 import searchBlack from "../../assets/icons/search-black.png";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useForm } from "react-hook-form";
 
-function ListHeader() {
+function ListHeader({
+  UserId,
+  Province,
+  GroceryListId,
+  BASE_URL,
+  GetListItems,
+}) {
+  const { register, reset } = useForm();
   const navigate = useNavigate();
 
   const handleGoBack = (event) => {
     navigate(-1);
+  };
+
+  // function to add item to list
+  const addItem = async (event) => {
+    event.preventDefault();
+    // these variables need to be assigned dynamically based on a item_name search of respective tables
+    const cpiItemId = null;
+    const userItemId = null;
+
+    const itemToAdd = {
+      grocery_list_id: GroceryListId,
+      active_state: true,
+      province: Province,
+      cpi_item_id: cpiItemId,
+      user_item_id: userItemId,
+      item_name: event.target.search.value,
+      category: event.target.category.value,
+    };
+    console.log(itemToAdd);
+    try {
+      await axios.post(
+        `${BASE_URL}/grocery-list/${UserId}/${Province}/${GroceryListId}`,
+        itemToAdd
+      );
+      GetListItems();
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>
@@ -38,18 +76,45 @@ function ListHeader() {
             />
           </div>
         </div>
-        <form className="list-header__add-item-form" onSubmit="">
+        <form
+          className="list-header__add-item-form"
+          onSubmit={() => addItem(event)}
+        >
           <div className="list-header__search-container">
             <input
               className="list-header__search-bar"
               type="text"
               placeholder="Add Item..."
+              name="search"
+              {...register("search")}
             />
             <img className="list-header__search-bar--icon" src={searchBlack} />
           </div>
-          <button className="list-header__add-button" type="submit">
-            ADD
-          </button>
+          <div className="list-header__input-wrapper">
+            <div className="list-header__dropdown-container">
+              <select
+                className="list-header__dropdown"
+                defaultValue=""
+                name="category"
+                id="category"
+                {...register("category")}
+              >
+                <option value="" disabled>
+                  category
+                </option>
+                <option value="other">other</option>
+                <option value="fruit">fruit</option>
+                <option value="vegetable">vegetable</option>
+                <option value="meat">meat</option>
+                <option vlaue="bakery">bakery</option>
+                <option vlaue="dairy">dairy</option>
+              </select>
+            </div>
+
+            <button className="list-header__add-button" type="submit">
+              ADD
+            </button>
+          </div>
         </form>
         <div className="list-header__list-tabs">
           <div className="list-header__tab">
