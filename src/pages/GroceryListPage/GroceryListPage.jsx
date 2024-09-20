@@ -71,6 +71,30 @@ function GroceryListPage() {
     }
   };
 
+  // function to change active state of a list item
+  const changeActiveState = async (id, status) => {
+    let state = 0;
+    if (status === 0) {
+      state = 1;
+    }
+    if (status === 1) {
+      state = 0;
+    }
+    const activeStatus = {
+      id: id,
+      active_state: state,
+    };
+    try {
+      await axios.patch(
+        `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}`,
+        activeStatus
+      );
+      getListItems();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <ListHeader
@@ -85,6 +109,7 @@ function GroceryListPage() {
         ListItems={listItems}
         SortCategory={sortCategory}
         SortName={sortName}
+        ChangeActiveState={changeActiveState}
       />
     </>
   );

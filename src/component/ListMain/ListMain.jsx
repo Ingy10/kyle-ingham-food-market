@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function ListMain({ ListItems, SortCategory, SortName }) {
+function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState }) {
   // object to assign images to each category
   const imageAssign = {
     fruit: fruit,
@@ -93,6 +93,12 @@ function ListMain({ ListItems, SortCategory, SortName }) {
                     <img
                       className="list-main__list-item list-main__list-item--buy"
                       src={checkBoxEmpty}
+                      onClick={() =>
+                        ChangeActiveState(
+                          item.grocery_list_item_id,
+                          item.active_state
+                        )
+                      }
                     />
                   </div>
                 </li>
