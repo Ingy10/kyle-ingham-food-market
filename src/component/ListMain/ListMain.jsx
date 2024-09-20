@@ -1,5 +1,6 @@
 import "./ListMain.scss";
 import checkBoxEmpty from "../../assets/icons/check-box-empty-black.png";
+import checkedBox from "../../assets/icons/check-black.png";
 import category from "../../assets/icons/category.png";
 import vegetable from "../../assets/icons/carrot-black.png";
 import fruit from "../../assets/icons/apple-black.png";
@@ -20,6 +21,12 @@ function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState }) {
     meat: meat,
     bakery: bakery,
     other: other,
+  };
+
+  // Object to assign image depending on active state
+  const activeAssign = {
+    1: checkBoxEmpty,
+    0: checkedBox,
   };
 
   if (ListItems.length === 0) {
@@ -67,6 +74,12 @@ function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState }) {
                 <li
                   className="list-main__list-item-row"
                   key={item.grocery_list_item_id}
+                  style={{
+                    backgroundColor: item.active_state === 0 ? `grey` : "",
+                    opacity: item.active_state === 0 ? ".7" : "",
+                    boxShadow:
+                      item.active_state === 0 ? "inset 2px 2px 8px black" : "",
+                  }}
                 >
                   <div className="list-main__list-item-container list-main__list-item-container--1">
                     <p className="list-main__list-item list-main__list-item--name">
@@ -92,7 +105,7 @@ function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState }) {
                   <div className="list-main__list-item-container list-main__list-item-container--5">
                     <img
                       className="list-main__list-item list-main__list-item--buy"
-                      src={checkBoxEmpty}
+                      src={activeAssign[item.active_state]}
                       onClick={() =>
                         ChangeActiveState(
                           item.grocery_list_item_id,

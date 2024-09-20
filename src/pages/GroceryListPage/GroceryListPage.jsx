@@ -11,6 +11,7 @@ function GroceryListPage() {
   const [listItems, setListItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
   const [sortAz, setSortAz] = useState(false);
+  const [sort, setSort] = useState("");
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -19,7 +20,22 @@ function GroceryListPage() {
       const listArray = await axios.get(
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}`
       );
+      if (sort === "category") {
+        listArray.data.sort((a, b) =>
+          a.grocery_list_category.localeCompare(b.grocery_list_category)
+        );
+      } else if (sort === "sortaz") {
+        listArray.data.sort((a, b) =>
+          a.grocery_list_item_name.localeCompare(b.grocery_list_item_name)
+        );
+      } else if (sort === "sortza") {
+        listArray.data.sort((a, b) =>
+          b.grocery_list_item_name.localeCompare(a.grocery_list_item_name)
+        );
+      }
+      listArray.data.sort((a, b) => b.active_state - a.active_state);
       setListItems(listArray.data);
+      window.scrollTo(0, window.scrollY);
     } catch (error) {
       console.error(error);
     }
@@ -48,10 +64,14 @@ function GroceryListPage() {
 
   // function to sort list by category
   const sortCategory = () => {
-    const sortedList = [...listItems].sort((a, b) =>
+    listItems.sort((a, b) =>
       a.grocery_list_category.localeCompare(b.grocery_list_category)
     );
+    const sortedList = [...listItems].sort(
+      (a, b) => b.active_state - a.active_state
+    );
     setListItems(sortedList);
+    setSort("category");
   };
 
   // function to sort list by name
@@ -62,12 +82,14 @@ function GroceryListPage() {
       );
       setListItems(sortedList);
       setSortAz(true);
+      setSort("sortaz");
     } else {
       const sortedList = [...listItems].sort((a, b) =>
         b.grocery_list_item_name.localeCompare(a.grocery_list_item_name)
       );
       setListItems(sortedList);
       setSortAz(false);
+      setSort("sortza");
     }
   };
 
