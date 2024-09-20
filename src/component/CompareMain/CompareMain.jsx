@@ -155,7 +155,7 @@ function CompareMain({ SelectedItem, AllItems }) {
         setSavingsPercentage(
           ((price2 / itemObj.market_price - 1) * 100).toFixed(2)
         );
-        itemObj.my_price = (price2 - itemObj.market_price).toFixed(2);
+        itemObj.my_price = price2;
         itemObj.percentage_savings = (
           (price2 / itemObj.market_price - 1) *
           100

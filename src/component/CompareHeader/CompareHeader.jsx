@@ -44,7 +44,10 @@ function CompareHeader({
         <img className="compare-header__background-image" src={produceSpread} />
         <div className="compare-header__overlay"></div>
         <div className="compare-header__container-nav">
-          <Link className="compare-header__list-link" to={"/grocery-list"}>
+          <Link
+            className="compare-header__list-link"
+            to={"/grocery-list/1/alberta/1"}
+          >
             <div className="compare-header__wrapper-icon">
               <img
                 className="compare-header__icon-left"
