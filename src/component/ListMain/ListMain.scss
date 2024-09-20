@@ -29,6 +29,10 @@
     &--5 {
       width: 14%;
     }
+    &--2,
+    &--1 {
+      cursor: pointer;
+    }
   }
   &__title-text {
     width: 100%;

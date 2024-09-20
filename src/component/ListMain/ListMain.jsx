@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function ListMain({ ListItems }) {
+function ListMain({ ListItems, SortCategory, SortName }) {
   // object to assign images to each category
   const imageAssign = {
     fruit: fruit,
@@ -30,10 +30,16 @@ function ListMain({ ListItems }) {
         <main className="list-main">
           <section className="list-main__list-section">
             <div className="list-main__list-titles">
-              <div className="list-main__title list-main__title--1">
+              <div
+                className="list-main__title list-main__title--1"
+                onClick={() => SortName()}
+              >
                 <h3 className="list-main__title-text">Items</h3>
               </div>
-              <div className="list-main__title list-main__title--2">
+              <div
+                className="list-main__title list-main__title--2"
+                onClick={() => SortCategory()}
+              >
                 <img
                   className="list-main__title-text list-main__title-category"
                   src={category}

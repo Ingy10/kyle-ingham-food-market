@@ -10,6 +10,7 @@ const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 function GroceryListPage() {
   const [listItems, setListItems] = useState([]);
   const [allItems, setAllItems] = useState([]);
+  const [sortAz, setSortAz] = useState(false);
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -45,6 +46,31 @@ function GroceryListPage() {
     getAllProvincialCpiItems(province);
   }, []);
 
+  // function to sort list by category
+  const sortCategory = () => {
+    const sortedList = [...listItems].sort((a, b) =>
+      a.grocery_list_category.localeCompare(b.grocery_list_category)
+    );
+    setListItems(sortedList);
+  };
+
+  // function to sort list by name
+  const sortName = () => {
+    if (!sortAz) {
+      const sortedList = [...listItems].sort((a, b) =>
+        a.grocery_list_item_name.localeCompare(b.grocery_list_item_name)
+      );
+      setListItems(sortedList);
+      setSortAz(true);
+    } else {
+      const sortedList = [...listItems].sort((a, b) =>
+        b.grocery_list_item_name.localeCompare(a.grocery_list_item_name)
+      );
+      setListItems(sortedList);
+      setSortAz(false);
+    }
+  };
+
   return (
     <>
       <ListHeader
@@ -55,7 +81,11 @@ function GroceryListPage() {
         GetListItems={getListItems}
         AllItems={allItems}
       />
-      <ListMain ListItems={listItems} />
+      <ListMain
+        ListItems={listItems}
+        SortCategory={sortCategory}
+        SortName={sortName}
+      />
     </>
   );
 }
