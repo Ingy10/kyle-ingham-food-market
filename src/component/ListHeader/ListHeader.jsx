@@ -13,6 +13,7 @@ function ListHeader({
   GroceryListId,
   BASE_URL,
   GetListItems,
+  AllItems
 }) {
   const { register, reset } = useForm();
   const navigate = useNavigate();
@@ -25,8 +26,18 @@ function ListHeader({
   const addItem = async (event) => {
     event.preventDefault();
     // these variables need to be assigned dynamically based on a item_name search of respective tables
-    const cpiItemId = null;
+    let cpiItemId = null;
     const userItemId = null;
+
+    // Checks to see if item exists in the CPI database for the users province
+    const itemFound = AllItems.find(
+      (item) =>
+        event.target.search.value.toLowerCase() === item.item_name.toLowerCase()
+    );
+
+    if (itemFound) {
+      cpiItemId = itemFound.id;
+    }
 
     const itemToAdd = {
       grocery_list_id: GroceryListId,
@@ -37,7 +48,7 @@ function ListHeader({
       item_name: event.target.search.value,
       category: event.target.category.value,
     };
-    console.log(itemToAdd);
+    
     try {
       await axios.post(
         `${BASE_URL}/grocery-list/${UserId}/${Province}/${GroceryListId}`,

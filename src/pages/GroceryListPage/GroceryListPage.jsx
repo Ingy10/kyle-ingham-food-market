@@ -9,6 +9,7 @@ const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
 
 function GroceryListPage() {
   const [listItems, setListItems] = useState([]);
+  const [allItems, setAllItems] = useState([]);
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -23,9 +24,25 @@ function GroceryListPage() {
     }
   };
 
+  // function to get all cpi items from the users province
+  const getAllProvincialCpiItems = async (province) => {
+    try {
+      province = province.toLowerCase();
+
+      const itemList = await axios.get(
+        `${BASE_URL}/compare/${userId}/${province}`
+      );
+
+      setAllItems(itemList.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // renders list on page load
   useEffect(() => {
     getListItems();
+    getAllProvincialCpiItems(province);
   }, []);
 
   return (
@@ -36,8 +53,9 @@ function GroceryListPage() {
         Province={province}
         GroceryListId={groceryListId}
         GetListItems={getListItems}
+        AllItems={allItems}
       />
-      <ListMain BASE_URL={BASE_URL} ListItems={listItems} />
+      <ListMain ListItems={listItems} />
     </>
   );
 }

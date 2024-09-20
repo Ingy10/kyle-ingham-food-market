@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function ListMain({ BASE_URL, ListItems }) {
+function ListMain({ ListItems }) {
   // object to assign images to each category
   const imageAssign = {
     fruit: fruit,
@@ -43,14 +43,13 @@ function ListMain({ BASE_URL, ListItems }) {
                 <h3 className="list-main__title-text">
                   Market
                   <br />
-                  $/kg*
+                  $*
                 </h3>
               </div>
               <div className="list-main__title list-main__title--4">
                 <h3 className="list-main__title-text">
                   My
-                  <br />
-                  $/kg
+                  <br />$
                 </h3>
               </div>
               <div className="list-main__title list-main__title--5">
@@ -59,21 +58,24 @@ function ListMain({ BASE_URL, ListItems }) {
             </div>
             <ul className="list-main__list">
               {ListItems.map((item) => (
-                <li className="list-main__list-item-row" key={item.id}>
+                <li
+                  className="list-main__list-item-row"
+                  key={item.grocery_list_item_id}
+                >
                   <div className="list-main__list-item-container list-main__list-item-container--1">
                     <p className="list-main__list-item list-main__list-item--name">
-                      {item.item_name}
+                      {item.grocery_list_item_name}
                     </p>
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--2">
                     <img
                       className="list-main__list-item list-main__list-item--category"
-                      src={imageAssign[item.category]}
+                      src={imageAssign[item.grocery_list_category]}
                     />
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--3">
                     <p className="list-main__list-item list-main__list-item--market-price">
-                      $1.50
+                      {item.market_price} / {item.unit_of_measure}
                     </p>
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--4">
