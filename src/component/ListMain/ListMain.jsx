@@ -12,7 +12,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
-function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState, ResetList }) {
+function ListMain({
+  ListItems,
+  SortCategory,
+  SortName,
+  ChangeActiveState,
+  ResetList,
+}) {
   // object to assign images to each category
   const imageAssign = {
     fruit: fruit,
@@ -119,7 +125,15 @@ function ListMain({ ListItems, SortCategory, SortName, ChangeActiveState, ResetL
             </ul>
             <footer className="list-main__list-footer">
               <div className="list-main__footer-container">
-                <button className="list-main__reset-button" onClick={() => ResetList()}>RESET</button>
+                <button
+                  className="list-main__reset-button"
+                  onClick={() => {
+                    ResetList();
+                    window.scrollTo({ top: 0, behavior: "auto" });
+                  }}
+                >
+                  RESET
+                </button>
                 <p className="list-main__button-description">
                   *This will reset all list items back to initial state
                 </p>
