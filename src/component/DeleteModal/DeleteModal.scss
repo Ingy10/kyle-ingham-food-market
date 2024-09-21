@@ -1,0 +1,35 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
+.delete-modal {
+  position: absolute;
+  background-color: $pd-color1-opaque;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  &__container {
+    width: 80%;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+    margin-top: 10rem;
+    background-color: $pd-color2;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  &__title {
+    padding-bottom: 1rem;
+  }
+  &__description {
+    text-align: center;
+    padding-bottom: 1rem;
+  }
+  &__button {
+    @include button($sd-color3, white, 2rem);
+  }
+}

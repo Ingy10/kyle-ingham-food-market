@@ -1,6 +1,7 @@
 import "./GroceryListPage.scss";
 import ListHeader from "../../component/ListHeader/ListHeader";
 import ListMain from "../../component/ListMain/ListMain";
+import DeleteModal from "../../component/DeleteModal/DeleteModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -139,22 +140,26 @@ function GroceryListPage() {
 
   return (
     <>
-      <ListHeader
-        BASE_URL={BASE_URL}
-        UserId={userId}
-        Province={province}
-        GroceryListId={groceryListId}
-        GetListItems={getListItems}
-        AllItems={allItems}
-      />
-      <ListMain
-        ListItems={listItems}
-        SortCategory={sortCategory}
-        SortName={sortName}
-        ChangeActiveState={changeActiveState}
-        ResetList={resetList}
-        DeleteList={deleteList}
-      />
+      <main className="grocery-list-page">
+        <ListHeader
+          BASE_URL={BASE_URL}
+          UserId={userId}
+          Province={province}
+          GroceryListId={groceryListId}
+          GetListItems={getListItems}
+          AllItems={allItems}
+        />
+        <ListMain
+          ListItems={listItems}
+          SortCategory={sortCategory}
+          SortName={sortName}
+          ChangeActiveState={changeActiveState}
+          ResetList={resetList}
+        />
+        <div className="grocery-list-page__delete-modal">
+          <DeleteModal />
+        </div>
+      </main>
     </>
   );
 }
