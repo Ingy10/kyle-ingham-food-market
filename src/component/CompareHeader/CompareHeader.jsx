@@ -11,6 +11,8 @@ function CompareHeader({
   SearchItemsList,
   SelectItemToCompare,
   RemoveList,
+  Invalid,
+  RemoveInvalidState,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -77,14 +79,23 @@ function CompareHeader({
         >
           <div className="compare-header__search-container">
             <input
-              className="compare-header__search-bar"
+              className={`compare-header__search-bar compare-header__search-bar${Invalid}`}
               type="text"
               placeholder="Search Items..."
               name="search"
-              onChange={() => handleInputChange(event)}
+              onChange={() => {
+                handleInputChange(event);
+                RemoveInvalidState();
+              }}
               value={searchTerm}
               autoComplete="off"
             />
+            <p
+              className="compare-header__search-bar-info"
+              style={{ display: !Invalid ? `none` : `flex` }}
+            >
+              *Please select a valid item from search item list
+            </p>
             <img
               className="compare-header__search-bar--icon"
               src={searchBlack}

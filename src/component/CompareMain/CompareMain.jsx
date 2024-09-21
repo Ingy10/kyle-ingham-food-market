@@ -1,6 +1,7 @@
 import "./CompareMain.scss";
 import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
 import odometer from "../../assets/images/speedometer.png";
+import dollarBlack from "../../assets/icons/dollar-symbol.png";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -215,13 +216,16 @@ function CompareMain({ SelectedItem, AllItems }) {
               unit:
             </h4>
             <div className="compare-main__inputs-1">
-              <input
-                className="compare-main__input compare-main__input--price-1"
-                type="text"
-                placeholder="Price"
-                name="price1"
-                {...register("price1")}
-              />
+              <span className="compare-main__input-wrapper">
+                <input
+                  className="compare-main__input compare-main__input--price-1"
+                  type="text"
+                  placeholder="Price"
+                  name="price1"
+                  {...register("price1")}
+                />
+                <img className="compare-main__input--icon" src={dollarBlack} />
+              </span>
               <input
                 className="compare-main__input compare-main__input--weight"
                 type="text"
@@ -248,13 +252,16 @@ function CompareMain({ SelectedItem, AllItems }) {
               Use this option if you have the price per weight unit:
             </h4>
             <div className="compare-main__inputs-2">
-              <input
-                className="compare-main__input compare-main__input--price-2"
-                type="text"
-                placeholder="Price"
-                name="price2"
-                {...register("price2")}
-              />
+              <span className="compare-main__input-wrapper">
+                <input
+                  className="compare-main__input compare-main__input--price-2"
+                  type="text"
+                  placeholder="Price"
+                  name="price2"
+                  {...register("price2")}
+                />
+                <img className="compare-main__input--icon" src={dollarBlack} />
+              </span>
               <select
                 className="compare-main__input compare-main__input--unit-2"
                 defaultValue=""

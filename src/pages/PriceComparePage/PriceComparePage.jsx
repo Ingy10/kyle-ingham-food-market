@@ -11,6 +11,7 @@ function PriceComparePage() {
   const [allItems, setAllItems] = useState([]);
   const [searchItemsList, setSearchItemsList] = useState([]);
   const [selectedItem, setSelectedItem] = useState("");
+  const [invalid, setInvalid] = useState("");
   const { province, userId } = useParams();
 
   // get request to get all cpi items for a given province
@@ -51,6 +52,18 @@ function PriceComparePage() {
   // selected search item from submit function
   const selectItemToCompare = (event) => {
     event.preventDefault();
+    let foundItem = "";
+    foundItem = allItems.filter((item) =>
+      item.item_name
+        .toLowerCase()
+        .includes(event.target.search.value.toLowerCase())
+    );
+    if (foundItem.length === 0) {
+      alert(`Pricing data unavailable for ${event.target.search.value}`);
+      setInvalid("--invalid");
+      return;
+    }
+    setInvalid("");
     setSelectedItem(event.target.search.value);
     setSearchItemsList([]);
   };
@@ -60,6 +73,10 @@ function PriceComparePage() {
     setSearchItemsList([]);
   };
 
+  const removeInvalidState = () => {
+    setInvalid("");
+  };
+
   return (
     <>
       <CompareHeader
@@ -67,6 +84,8 @@ function PriceComparePage() {
         SearchItemsList={searchItemsList}
         SelectItemToCompare={selectItemToCompare}
         RemoveList={removeList}
+        Invalid={invalid}
+        RemoveInvalidState={removeInvalidState}
       />
       <CompareMain SelectedItem={selectedItem} AllItems={allItems} />
     </>

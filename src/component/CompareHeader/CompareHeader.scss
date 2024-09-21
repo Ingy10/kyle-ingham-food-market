@@ -67,15 +67,29 @@
   &__search-container {
     width: 66%;
     padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
+    padding-bottom: 1rem;
     position: relative;
   }
   &__search-bar {
     width: 100%;
     @include search-bar;
+    &--icon {
+      top: 45%;
+    }
+    &--invalid {
+      border: 1px solid red;
+    }
+  }
+  &__search-bar-info {
+    position: absolute;
+    padding-left: 1rem;
+    color: rgb(243, 154, 154);
+    width: 145%;
+    font-size: 0.9rem;
+    padding-top: 0.1rem;
   }
   &__button {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     margin-top: 0.5rem;
     margin-left: 2%;
     @include button($sd-color1, $pd-color2, 1.5rem);
