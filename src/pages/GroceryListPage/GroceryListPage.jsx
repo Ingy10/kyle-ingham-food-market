@@ -13,6 +13,8 @@ function GroceryListPage() {
   const [allItems, setAllItems] = useState([]);
   const [sortAz, setSortAz] = useState(false);
   const [sort, setSort] = useState("");
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [deleteMessage, setDeleteMessage] = useState("");
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -130,12 +132,46 @@ function GroceryListPage() {
     }
   };
 
-  // function to delete all selected list items
+  // function to display delete modal
   const deleteList = () => {
+    const countItemsToDelete = listItems.filter(
+      (item) => item.active_state === 0
+    );
+    if (countItemsToDelete.length === 0) {
+      setDeleteMessage(`No items to delete`);
+      console.log(deleteMessage);
+      setShowDeleteModal(true);
+      return;
+    }
+    if (countItemsToDelete.length === 1) {
+      setDeleteMessage(
+        `Are you sure you want to delete ${countItemsToDelete.length} selected item?`
+      );
+      setShowDeleteModal(true);
+      return;
+    }
+    setDeleteMessage(
+      `Are you sure you want to delete ${countItemsToDelete.length} selected items?`
+    );
+    setShowDeleteModal(true);
+  };
+
+  // function to delete all selected list items
+  const deleteListItems = async () => {
     try {
+      setShowDeleteModal(false);
+      await axios.delete(
+        `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}`
+      );
+      getListItems();
     } catch (error) {
       console.error(error);
     }
+  };
+
+  // removes delete modal
+  const cancelDelete = () => {
+    setShowDeleteModal(false);
   };
 
   return (
@@ -155,9 +191,17 @@ function GroceryListPage() {
           SortName={sortName}
           ChangeActiveState={changeActiveState}
           ResetList={resetList}
+          DeleteList={deleteList}
         />
-        <div className="grocery-list-page__delete-modal">
-          <DeleteModal />
+        <div
+          className="grocery-list-page__delete-modal"
+          style={{ display: showDeleteModal ? `flex` : `none` }}
+        >
+          <DeleteModal
+            DeleteListItems={deleteListItems}
+            CancelDelete={cancelDelete}
+            DeleteMessage={deleteMessage}
+          />
         </div>
       </main>
     </>
