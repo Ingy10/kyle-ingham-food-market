@@ -18,6 +18,7 @@ function ListMain({
   SortName,
   ChangeActiveState,
   ResetList,
+  DeleteList,
 }) {
   // object to assign images to each category
   const imageAssign = {
@@ -124,24 +125,40 @@ function ListMain({
               ))}
             </ul>
             <footer className="list-main__list-footer">
-              <div className="list-main__footer-container">
-                <button
-                  className="list-main__reset-button"
-                  onClick={() => {
-                    ResetList();
-                    window.scrollTo({ top: 0, behavior: "auto" });
-                  }}
-                >
-                  RESET
-                </button>
-                <p className="list-main__button-description">
-                  *This will reset all list items back to initial state
-                </p>
-                <p className="list-main__foot-note">
-                  *Food prices available only for items tracked in provincial
-                  CPI report
-                </p>
+              <div className="list-main__footer-wrapper">
+                <div className="list-main__footer-container list-main__footer-container--1">
+                  <button
+                    className="list-main__button list-main__button--reset"
+                    onClick={() => {
+                      ResetList();
+                      window.scrollTo({ top: 0, behavior: "auto" });
+                    }}
+                  >
+                    RESET
+                  </button>
+                  <p className="list-main__button-description">
+                    *This will reset all list items back to initial state
+                  </p>
+                </div>
+                <div className="list-main__footer-container list-main__footer-container--1">
+                  <button
+                    className="list-main__button list-main__button--delete"
+                    onClick={() => {
+                      DeleteList();
+                      window.scrollTo({ top: 0, behavior: "auto" });
+                    }}
+                  >
+                    DELETE
+                  </button>
+                  <p className="list-main__button-description">
+                    *This will delete all selected items from the list
+                  </p>
+                </div>
               </div>
+              <p className="list-main__foot-note">
+                *Food prices available only for items tracked in provincial CPI
+                report
+              </p>
             </footer>
           </section>
         </main>
