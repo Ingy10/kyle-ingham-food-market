@@ -69,7 +69,7 @@ This will start the React development server, typically on `http://localhost:517
 
 ### 5. Access the Application
 
-Open your web browser and visit `http://localhost:5173/1/aberta` to view the React frontend. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application.
+Open your web browser and visit `http://localhost:5173/1/aberta` to view the React frontend. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
 
 ## Additional Information
 

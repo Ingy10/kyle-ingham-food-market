@@ -101,12 +101,15 @@ function ListMain({
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--3">
                     <p className="list-main__list-item list-main__list-item--market-price">
-                      {item.market_price} / {item.unit_of_measure}
+                      {item.avg_user_price && item.market_price
+                        ? (item.market_price + item.avg_user_price) / 2
+                        : item.market_price || item.avg_user_price}{" "}
+                      / {item.cpi_unit_of_measure}
                     </p>
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--4">
                     <p className="list-main__list-item list-main__list-item--my-price">
-                      $1.34
+                      {} / {}
                     </p>
                   </div>
                   <div className="list-main__list-item-container list-main__list-item-container--5">
