@@ -13,7 +13,7 @@ function ListHeader({
   GroceryListId,
   BASE_URL,
   GetListItems,
-  AllItems
+  AllItems,
 }) {
   const { register, reset } = useForm();
   const navigate = useNavigate();
@@ -48,7 +48,7 @@ function ListHeader({
       item_name: event.target.search.value,
       category: event.target.category.value,
     };
-    
+
     try {
       await axios.post(
         `${BASE_URL}/grocery-list/${UserId}/${Province}/${GroceryListId}`,
@@ -97,6 +97,7 @@ function ListHeader({
               type="text"
               placeholder="Add Item..."
               name="search"
+              autoComplete="off"
               {...register("search")}
             />
             <img className="list-header__search-bar--icon" src={searchBlack} />

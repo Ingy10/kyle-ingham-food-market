@@ -8,6 +8,7 @@ import dairy from "../../assets/icons/dairy-products-black.png";
 import meat from "../../assets/icons/steak-black.png";
 import bakery from "../../assets/icons/bread-black.png";
 import other from "../../assets/icons/other-black.png";
+import dollarSymbol from "../../assets/icons/dollar-symbol.png";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -20,6 +21,9 @@ function ListMain({
   ResetList,
   DeleteList,
 }) {
+  const [showBuyButton, setShowBuyButton] = useState(false);
+  const [activeListItemId, setActiveListItemId] = useState("");
+
   // object to assign images to each category
   const imageAssign = {
     fruit: fruit,
@@ -34,6 +38,32 @@ function ListMain({
   const activeAssign = {
     1: checkBoxEmpty,
     0: checkedBox,
+  };
+
+  // function to compare a list item
+  const compareListItem = () => {
+    event.preventDefault();
+    setShowBuyButton(true);
+  };
+
+  // function to buy list item that is being compared
+  const purchaseListItem = () => {
+    event.preventDefault();
+    setShowBuyButton(false);
+  };
+
+  // function to show sub-item for a given list item
+  const showSubItem = (id, active) => {
+    console.log(id);
+    if (active === 0) {
+      return;
+    }
+    if (id === activeListItemId) {
+      setActiveListItemId("");
+    } else {
+      setActiveListItemId(id);
+      console.log(activeListItemId);
+    }
   };
 
   if (ListItems.length === 0) {
@@ -78,53 +108,118 @@ function ListMain({
             </div>
             <ul className="list-main__list">
               {ListItems.map((item) => (
-                <li
-                  className="list-main__list-item-row"
+                <div
+                  className="list-main__list-item-wrapper"
                   key={item.grocery_list_item_id}
-                  style={{
-                    backgroundColor: item.active_state === 0 ? `grey` : "",
-                    opacity: item.active_state === 0 ? ".7" : "",
-                    boxShadow:
-                      item.active_state === 0 ? "inset 2px 2px 8px black" : "",
-                  }}
+                  onClick={() =>
+                    showSubItem(item.grocery_list_item_id, item.active_state)
+                  }
                 >
-                  <div className="list-main__list-item-container list-main__list-item-container--1">
-                    <p className="list-main__list-item list-main__list-item--name">
-                      {item.grocery_list_item_name}
-                    </p>
-                  </div>
-                  <div className="list-main__list-item-container list-main__list-item-container--2">
-                    <img
-                      className="list-main__list-item list-main__list-item--category"
-                      src={imageAssign[item.grocery_list_category]}
-                    />
-                  </div>
-                  <div className="list-main__list-item-container list-main__list-item-container--3">
-                    <p className="list-main__list-item list-main__list-item--market-price">
-                      {item.avg_user_price && item.market_price
-                        ? (item.market_price + item.avg_user_price) / 2
-                        : item.market_price || item.avg_user_price}{" "}
-                      / {item.cpi_unit_of_measure}
-                    </p>
-                  </div>
-                  <div className="list-main__list-item-container list-main__list-item-container--4">
-                    <p className="list-main__list-item list-main__list-item--my-price">
-                      {} / {}
-                    </p>
-                  </div>
-                  <div className="list-main__list-item-container list-main__list-item-container--5">
-                    <img
-                      className="list-main__list-item list-main__list-item--buy"
-                      src={activeAssign[item.active_state]}
-                      onClick={() =>
-                        ChangeActiveState(
-                          item.grocery_list_item_id,
-                          item.active_state
-                        )
-                      }
-                    />
-                  </div>
-                </li>
+                  <li
+                    className="list-main__list-item-row"
+                    style={{
+                      backgroundColor: item.active_state === 0 ? `grey` : "",
+                      opacity: item.active_state === 0 ? ".7" : "",
+                      boxShadow:
+                        item.active_state === 0
+                          ? "inset 2px 2px 8px black"
+                          : "",
+                    }}
+                  >
+                    <div className="list-main__list-item-container list-main__list-item-container--1">
+                      <p className="list-main__list-item list-main__list-item--name">
+                        {item.grocery_list_item_name}
+                      </p>
+                    </div>
+                    <div className="list-main__list-item-container list-main__list-item-container--2">
+                      <img
+                        className="list-main__list-item list-main__list-item--category"
+                        src={imageAssign[item.grocery_list_category]}
+                      />
+                    </div>
+                    <div className="list-main__list-item-container list-main__list-item-container--3">
+                      <p className="list-main__list-item list-main__list-item--market-price">
+                        {item.avg_user_price && item.market_price
+                          ? (item.market_price + item.avg_user_price) / 2
+                          : item.market_price || item.avg_user_price}{" "}
+                        / {item.cpi_unit_of_measure}
+                      </p>
+                    </div>
+                    <div className="list-main__list-item-container list-main__list-item-container--4">
+                      <p className="list-main__list-item list-main__list-item--my-price">
+                        {} / {}
+                      </p>
+                    </div>
+                    <div className="list-main__list-item-container list-main__list-item-container--5">
+                      <img
+                        className="list-main__list-item list-main__list-item--buy"
+                        src={activeAssign[item.active_state]}
+                        onClick={() =>
+                          ChangeActiveState(
+                            item.grocery_list_item_id,
+                            item.active_state
+                          )
+                        }
+                      />
+                    </div>
+                  </li>
+                  <li
+                    className="list-main__sub-item"
+                    style={{
+                      display:
+                        activeListItemId === item.grocery_list_item_id
+                          ? "flex"
+                          : "none",
+                    }}
+                  >
+                    <form className="list-main__compare-form">
+                      <div className="list-main__input-container list-main__input-container--1">
+                        <input
+                          className="list-main__input list-main__input--price"
+                          placeholder="price"
+                          autoComplete="off"
+                        />
+                        <img
+                          className="list-main__input--icon"
+                          src={dollarSymbol}
+                        />
+                      </div>
+                      <div className="list-main__input-container list-main__input-container--2">
+                        <input
+                          className="list-main__input list-main__input--weight"
+                          placeholder="wt."
+                          autoComplete="off"
+                        />
+                      </div>
+                      <div className="list-main__input-container list-main__input-container--3">
+                        <select className="list-main__input list-main__input--unit">
+                          <option value="lb">&nbsp; lb</option>
+                          <option value="kg">&nbsp; kg</option>
+                          <option value="100g">100g</option>
+                          <option value="unit">&nbsp; unit</option>
+                          <option value="litre">&nbsp; litre</option>
+                          <option value="dozen">dozen</option>
+                        </select>
+                      </div>
+                      <div className="list-main__form-button-container">
+                        <button
+                          className="list-main__form-button list-main__form-button--compare"
+                          onClick={() => compareListItem()}
+                          style={{ display: showBuyButton ? "none" : "flex" }}
+                        >
+                          COMPARE
+                        </button>
+                        <button
+                          className="list-main__form-button list-main__form-button--buy"
+                          onClick={() => purchaseListItem()}
+                          style={{ display: showBuyButton ? "flex" : "none" }}
+                        >
+                          BUY
+                        </button>
+                      </div>
+                    </form>
+                  </li>
+                </div>
               ))}
             </ul>
             <footer className="list-main__list-footer">
