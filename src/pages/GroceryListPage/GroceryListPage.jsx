@@ -117,6 +117,19 @@ function GroceryListPage() {
     }
   };
 
+  // function to reset active status of all items back to active
+  const resetList = async () => {
+    console.log(groceryListId);
+    try {
+      await axios.patch(
+        `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/reset`
+      );
+      getListItems();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <ListHeader
@@ -132,6 +145,7 @@ function GroceryListPage() {
         SortCategory={sortCategory}
         SortName={sortName}
         ChangeActiveState={changeActiveState}
+        ResetList={resetList}
       />
     </>
   );
