@@ -24,9 +24,10 @@ function ListMain({
   AllCpiItems,
   AllUserItems,
   ActivateUserItemModal,
+  ActiveListItemId,
+  UpdateActiveListItemId,
 }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
-  const [activeListItemId, setActiveListItemId] = useState("");
   const [invalidPrice, setInvalidPrice] = useState("");
   const [listSavingsPerKg, setListSavingsPerKg] = useState("");
   const [listSavingsPercentage, setListSavingsPercentage] = useState(0);
@@ -54,12 +55,15 @@ function ListMain({
   const compareItem = (item, event) => {
     event.preventDefault();
     let price = Number(event.target.price.value);
-    let weight = event.target.weight.value || 1;
+    let weight = Number(event.target.weight.value) || 1;
     const unit = event.target.unit.value;
-    console.log(item);
-    console.log(event.target);
-    console.log(AllCpiItems);
-    console.log(AllUserItems);
+    const databaseUnit = item.cpi_unit_of_measure || item.user_unit_of_measure;
+    const avgDatabasePrice =
+      item.market_price && item.avg_user_price
+        ? (Number(item.market_price) + Number(item.avg_user_price)) / 2
+        : item.market_price
+        ? item.market_price
+        : item.avg_user_price;
 
     const itemExistsInCpiDatabase = AllCpiItems.find(
       (cpiItem) =>
@@ -71,8 +75,6 @@ function ListMain({
         userItem.user_item_name.toLowerCase() ===
         item.grocery_list_item_name.toLowerCase()
     );
-    console.log(itemExistsInCpiDatabase);
-    console.log(itemExistsInUserDatabase);
 
     if (!itemExistsInCpiDatabase && !itemExistsInUserDatabase) {
       ActivateUserItemModal(
@@ -91,47 +93,47 @@ function ListMain({
       setInvalidPrice("invalid");
       return;
     }
-    if (unit === "lb" && item.cpi_unit_of_measure === "kg") {
+    if (unit === "lb" && databaseUnit === "kg") {
       let pricePerLb = price / weight;
       let pricePerKg = pricePerLb * 2.204623;
-      setListSavingsPerKg((pricePerKg - item.market_price).toFixed(2));
+      setListSavingsPerKg((pricePerKg - avgDatabasePrice).toFixed(2));
       setListSavingsPercentage(
-        ((pricePerKg / item.market_price - 1) * 100).toFixed(2)
+        ((pricePerKg / avgDatabasePrice - 1) * 100).toFixed(2)
       );
       setPricePerUnit(pricePerKg.toFixed(2));
-      setUnit(item.cpi_unit_of_measure);
+      setUnit(databaseUnit);
     } else if (
-      (unit === "kg" && item.cpi_unit_of_measure === "kg") ||
-      (unit === "unit" && item.cpi_unit_of_measure === "unit") ||
-      (unit === "litre" && item.cpi_unit_of_measure === "litre") ||
-      (unit === "dozen" && item.cpi_unit_of_measure === "dozen")
+      (unit === "kg" && databaseUnit === "kg") ||
+      (unit === "unit" && databaseUnit === "unit") ||
+      (unit === "litre" && databaseUnit === "litre") ||
+      (unit === "dozen" && databaseUnit === "dozen")
     ) {
       let pricePer = price / weight;
-      setListSavingsPerKg((pricePer - item.market_price).toFixed(2));
+      setListSavingsPerKg((pricePer - avgDatabasePrice).toFixed(2));
       setListSavingsPercentage(
-        ((pricePer / item.market_price - 1) * 100).toFixed(2)
+        ((pricePer / avgDatabasePrice - 1) * 100).toFixed(2)
       );
       setPricePerUnit(pricePer.toFixed(2));
-      setUnit(item.cpi_unit_of_measure);
-    } else if (unit === "100g" && item.cpi_unit_of_measure === "kg") {
+      setUnit(databaseUnit);
+    } else if (unit === "100g" && databaseUnit === "kg") {
       let pricePerKg = (price / weight) * 10;
-      setListSavingsPerKg((pricePerKg - item.market_price).toFixed(2));
+      setListSavingsPerKg((pricePerKg - avgDatabasePrice).toFixed(2));
       setListSavingsPercentage(
-        ((pricePerKg / item.market_price - 1) * 100).toFixed(2)
+        ((pricePerKg / avgDatabasePrice - 1) * 100).toFixed(2)
       );
       setPricePerUnit(pricePerKg.toFixed(2));
-      setUnit(item.cpi_unit_of_measure);
-    } else if (unit === "ml" && item.cpi_unit_of_measure === "litre") {
+      setUnit(databaseUnit);
+    } else if (unit === "ml" && databaseUnit === "litre") {
       let pricePerLitre = (price / weight) * 1000;
-      setListSavingsPerKg((pricePerLitre - item.market_price).toFixed(2));
+      setListSavingsPerKg((pricePerLitre - avgDatabasePrice).toFixed(2));
       setListSavingsPercentage(
-        ((pricePerLitre / item.market_price - 1) * 100).toFixed(2)
+        ((pricePerLitre / avgDatabasePrice - 1) * 100).toFixed(2)
       );
       setPricePerUnit(pricePerLitre.toFixed(2));
-      setUnit(item.cpi_unit_of_measure);
+      setUnit(databaseUnit);
     } else {
       alert(
-        `Pricing data unavailable for this weight type.  ${item.grocery_list_item_name} pricing data is available in ${item.cpi_unit_of_measure}s`
+        `Pricing data unavailable for this weight type.  ${item.grocery_list_item_name} pricing data is available in ${databaseUnit}s`
       );
       return;
     }
@@ -159,13 +161,12 @@ function ListMain({
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/buy`,
         itemToAdd
       );
-      console.log(itemAdded);
     } catch (error) {
       console.error(error);
     }
     setShowBuyButton(false);
     setListSavingsPercentage(0);
-    setActiveListItemId("");
+    UpdateActiveListItemId("");
     ChangeActiveState(id, status);
   };
 
@@ -177,15 +178,15 @@ function ListMain({
     if (active === 0) {
       return;
     }
-    if (id === activeListItemId) {
-      setActiveListItemId("");
+    if (id === ActiveListItemId) {
+      UpdateActiveListItemId("");
     } else {
-      setActiveListItemId(id);
+      UpdateActiveListItemId(id);
     }
   };
 
   const turnOffActiveStateOnReset = () => {
-    setActiveListItemId("");
+    UpdateActiveListItemId("");
   };
 
   if (ListItems.length === 0) {
@@ -300,7 +301,7 @@ function ListMain({
                     className="list-main__sub-item"
                     style={{
                       display:
-                        activeListItemId === item.grocery_list_item_id
+                        ActiveListItemId === item.grocery_list_item_id
                           ? "flex"
                           : "none",
                       boxShadow:
@@ -318,6 +319,8 @@ function ListMain({
                       <div className="list-main__input-container list-main__input-container--1">
                         <input
                           className={`list-main__input list-main__input--price list-main__input--price-${invalidPrice}`}
+                          type="number"
+                          step="any"
                           placeholder="price"
                           autoComplete="off"
                           name="price"
@@ -338,6 +341,8 @@ function ListMain({
                       <div className="list-main__input-container list-main__input-container--2">
                         <input
                           className="list-main__input list-main__input--weight"
+                          type="number"
+                          step="any"
                           placeholder="wt."
                           autoComplete="off"
                           name="weight"
@@ -355,6 +360,7 @@ function ListMain({
                           <option value="100g">100g</option>
                           <option value="unit">&nbsp; unit</option>
                           <option value="litre">&nbsp; litre</option>
+                          <option value="ml">&nbsp; ml</option>
                           <option value="dozen">dozen</option>
                         </select>
                         <p

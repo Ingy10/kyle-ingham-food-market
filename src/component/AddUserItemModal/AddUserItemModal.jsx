@@ -11,9 +11,11 @@ function addUserItemModal({
   ItemToAddWeight,
   CancelUserItemModal,
   BASE_URL,
+  UpdateActiveListItemId,
 }) {
   const { userId, province, groceryListId } = useParams();
   const [defaultUnit, setDefaultUnit] = useState("");
+  const [invalidPrice, setInvalidPrice] = useState("");
 
   useEffect(() => {
     setDefaultUnit(ItemToAddUnit);
@@ -25,6 +27,11 @@ function addUserItemModal({
     let unit = event.target.unit.value;
     let price = event.target.price.value;
     let weight = event.target.weight.value || 1;
+
+    if (!unit || !price) {
+      setInvalidPrice("--invalid");
+      return;
+    }
 
     if (unit === "lb") {
       let pricePerLb = price / weight;
@@ -49,14 +56,6 @@ function addUserItemModal({
       price = (price / weight).toFixed(2);
     }
 
-    // console.log(price);
-    // console.log(weight);
-    // console.log(unit);
-    // console.log(ItemToAddName);
-    // console.log(ItemToAddCategory);
-    // console.log(province);
-    // console.log(userId);
-
     const itemToAdd = {
       user_item_name: ItemToAddName,
       user_item_price: price,
@@ -67,12 +66,13 @@ function addUserItemModal({
     };
 
     try {
-      const itemAdded = await axios.post(
+      await axios.post(
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/buy`,
         itemToAdd
       );
-    //   console.log(itemAdded);
       CancelUserItemModal();
+      UpdateActiveListItemId("");
+      setInvalidPrice("");
     } catch (error) {
       console.error(error);
     }
@@ -98,10 +98,12 @@ function addUserItemModal({
                   Price $
                 </label>
                 <input
-                  className="add-item-modal__input add-item-modal__input--price"
-                  type="text"
+                  className={`add-item-modal__input add-item-modal__input--price${invalidPrice}`}
+                  type="number"
+                  step="any"
                   name="price"
                   defaultValue={ItemToAddPrice}
+                  autoComplete="off"
                 />
               </div>
               <div className="add-item-modal__input-container add-item-modal__input-container--2">
@@ -110,9 +112,11 @@ function addUserItemModal({
                 </label>
                 <input
                   className="add-item-modal__input add-item-modal__input--weight"
-                  type="text"
+                  type="number"
+                  step="any"
                   name="weight"
                   defaultValue={ItemToAddWeight}
+                  autoComplete="off"
                 />
               </div>
               <div className="add-item-modal__input-container add-item-modal__input-container--3">
@@ -125,11 +129,12 @@ function addUserItemModal({
                   value={defaultUnit}
                   onChange={(e) => setDefaultUnit(e.target.value)}
                 >
-                  <option value="lb">&nbsp; lb</option>
-                  <option value="kg">&nbsp; kg</option>
+                  <option value="lb">lb</option>
+                  <option value="kg">kg</option>
                   <option value="100g">100g</option>
-                  <option value="unit">&nbsp; unit</option>
-                  <option value="litre">&nbsp; litre</option>
+                  <option value="unit">unit</option>
+                  <option value="litre">litre</option>
+                  <option value="ml">ml</option>
                   <option value="dozen">dozen</option>
                 </select>
               </div>

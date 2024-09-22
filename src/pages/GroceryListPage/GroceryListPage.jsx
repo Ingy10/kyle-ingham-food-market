@@ -23,6 +23,7 @@ function GroceryListPage() {
   const [itemToAddCategory, setItemToAddCategory] = useState("");
   const [itemToAddUnit, setItemToAddUnit] = useState("");
   const [itemToAddWeight, setItemToAddWeight] = useState("");
+  const [activeListItemId, setActiveListItemId] = useState("");
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -160,7 +161,6 @@ function GroceryListPage() {
     );
     if (countItemsToDelete.length === 0) {
       setDeleteMessage(`No items to delete`);
-      console.log(deleteMessage);
       setShowDeleteModal(true);
       return;
     }
@@ -210,6 +210,11 @@ function GroceryListPage() {
     setShowAddUserItemModal(false);
   };
 
+  // function to set active list item id
+  const updateActiveListItemId = (id) => {
+    setActiveListItemId(id);
+  };
+
   return (
     <>
       <main className="grocery-list-page">
@@ -232,6 +237,8 @@ function GroceryListPage() {
           AllCpiItems={allItems}
           AllUserItems={allUserItems}
           ActivateUserItemModal={activateUserItemModal}
+          ActiveListItemId={activeListItemId}
+          UpdateActiveListItemId={updateActiveListItemId}
         />
         <div
           className="grocery-list-page__delete-modal"
@@ -255,6 +262,7 @@ function GroceryListPage() {
             ItemToAddWeight={itemToAddWeight}
             CancelUserItemModal={cancelUserItemModal}
             BASE_URL={BASE_URL}
+            UpdateActiveListItemId={updateActiveListItemId}
           />
         </div>
       </main>
