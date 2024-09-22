@@ -2,6 +2,7 @@ import "./GroceryListPage.scss";
 import ListHeader from "../../component/ListHeader/ListHeader";
 import ListMain from "../../component/ListMain/ListMain";
 import DeleteModal from "../../component/DeleteModal/DeleteModal";
+import AddUserItemModal from "../../component/AddUserItemModal/AddUserItemModal";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -16,6 +17,12 @@ function GroceryListPage() {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
   const [allUserItems, setAllUserItems] = useState([]);
+  const [showAddUserItemModal, setShowAddUserItemModal] = useState(false);
+  const [itemToAddPrice, setItemToAddPrice] = useState("");
+  const [itemToAddName, setItemToAddName] = useState("");
+  const [itemToAddCategory, setItemToAddCategory] = useState("");
+  const [itemToAddUnit, setItemToAddUnit] = useState("");
+  const [itemToAddWeight, setItemToAddWeight] = useState("");
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -188,6 +195,21 @@ function GroceryListPage() {
     setShowDeleteModal(false);
   };
 
+  // function to show add user item modal
+  const activateUserItemModal = (name, price, category, unit, weight) => {
+    setShowAddUserItemModal(true);
+    setItemToAddName(name);
+    setItemToAddPrice(price);
+    setItemToAddCategory(category);
+    setItemToAddUnit(unit);
+    setItemToAddWeight(weight);
+  };
+
+  // function to remove user item modal
+  const cancelUserItemModal = () => {
+    setShowAddUserItemModal(false);
+  };
+
   return (
     <>
       <main className="grocery-list-page">
@@ -209,6 +231,7 @@ function GroceryListPage() {
           BASE_URL={BASE_URL}
           AllCpiItems={allItems}
           AllUserItems={allUserItems}
+          ActivateUserItemModal={activateUserItemModal}
         />
         <div
           className="grocery-list-page__delete-modal"
@@ -218,6 +241,20 @@ function GroceryListPage() {
             DeleteListItems={deleteListItems}
             CancelDelete={cancelDelete}
             DeleteMessage={deleteMessage}
+          />
+        </div>
+        <div
+          className="grocery-list-page__user-item-modal"
+          style={{ display: showAddUserItemModal ? `flex` : `none` }}
+        >
+          <AddUserItemModal
+            ItemToAddName={itemToAddName}
+            ItemToAddPrice={itemToAddPrice}
+            ItemToAddCategory={itemToAddCategory}
+            ItemToAddUnit={itemToAddUnit}
+            ItemToAddWeight={itemToAddWeight}
+            CancelUserItemModal={cancelUserItemModal}
+            BASE_URL={BASE_URL}
           />
         </div>
       </main>

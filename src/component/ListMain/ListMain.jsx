@@ -23,6 +23,7 @@ function ListMain({
   BASE_URL,
   AllCpiItems,
   AllUserItems,
+  ActivateUserItemModal,
 }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
   const [activeListItemId, setActiveListItemId] = useState("");
@@ -74,7 +75,15 @@ function ListMain({
     console.log(itemExistsInUserDatabase);
 
     if (!itemExistsInCpiDatabase && !itemExistsInUserDatabase) {
-      alert("No pricing data available for this item.  Would you like to add this price to your database for future comparison?")
+      ActivateUserItemModal(
+        item.grocery_list_item_name,
+        price,
+        item.grocery_list_category,
+        unit,
+        weight
+      );
+      window.scrollTo({ top: 0, behavior: "auto" });
+      return;
     }
 
     if (!price || typeof price !== "number") {
