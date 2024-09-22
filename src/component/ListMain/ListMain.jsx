@@ -234,9 +234,15 @@ function ListMain({
                       <div className="list-main__list-item-container list-main__list-item-container--3">
                         <p className="list-main__list-item list-main__list-item--market-price">
                           {item.avg_user_price && item.market_price
-                            ? (item.market_price + item.avg_user_price) / 2
-                            : item.market_price || item.avg_user_price}{" "}
-                          / {item.cpi_unit_of_measure}
+                            ? (
+                                (Number(item.market_price) +
+                                  Number(item.avg_user_price)) /
+                                2
+                              ).toFixed(2)
+                            : !item.avg_user_price && !item.market_price ? " " : item.market_price || Number(item.avg_user_price).toFixed(2)}{" "}
+                          /{" "}
+                          {item.cpi_unit_of_measure ||
+                            item.user_unit_of_measure}
                         </p>
                       </div>
                     </div>
