@@ -20,6 +20,7 @@ function ListMain({
   ChangeActiveState,
   ResetList,
   DeleteList,
+  BASE_URL,
 }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
   const [activeListItemId, setActiveListItemId] = useState("");
@@ -28,6 +29,7 @@ function ListMain({
   const [listSavingsPercentage, setListSavingsPercentage] = useState(0);
   const [pricePerUnit, setPricePerUnit] = useState("");
   const [unit, setUnit] = useState("");
+  const { province, userId, groceryListId } = useParams();
 
   // object to assign images to each category
   const imageAssign = {
@@ -107,9 +109,28 @@ function ListMain({
     setShowBuyButton(true);
   };
 
-  // function to buy list item that is being compared
-  const purchaseListItem = (id, status) => {
+  // function to buy list item that is being compared and store the purchase data in user items table
+  const purchaseListItem = async (id, status, cpiId, itemName, category) => {
     event.preventDefault();
+
+    const itemToAdd = {
+      cpi_item_id: cpiId,
+      user_item_name: itemName,
+      user_item_price: pricePerUnit,
+      category: category,
+      unit_of_measure: unit,
+      province: province,
+      user_id: userId,
+    };
+    try {
+      const itemAdded = await axios.post(
+        `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/buy`,
+        itemToAdd
+      );
+      console.log(itemAdded);
+    } catch (error) {
+      console.error(error);
+    }
     setShowBuyButton(false);
     setListSavingsPercentage(0);
     setActiveListItemId("");
@@ -318,7 +339,10 @@ function ListMain({
                           onClick={() =>
                             purchaseListItem(
                               item.grocery_list_item_id,
-                              item.active_state
+                              item.active_state,
+                              item.cpi_item_id,
+                              item.grocery_list_item_name,
+                              item.grocery_list_category
                             )
                           }
                           style={{ display: showBuyButton ? "flex" : "none" }}

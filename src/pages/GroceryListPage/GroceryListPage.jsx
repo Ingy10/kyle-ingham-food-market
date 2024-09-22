@@ -192,6 +192,7 @@ function GroceryListPage() {
           ChangeActiveState={changeActiveState}
           ResetList={resetList}
           DeleteList={deleteList}
+          BASE_URL={BASE_URL}
         />
         <div
           className="grocery-list-page__delete-modal"
