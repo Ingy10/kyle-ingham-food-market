@@ -21,6 +21,8 @@ function ListMain({
   ResetList,
   DeleteList,
   BASE_URL,
+  AllCpiItems,
+  AllUserItems,
 }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
   const [activeListItemId, setActiveListItemId] = useState("");
@@ -53,6 +55,27 @@ function ListMain({
     let price = Number(event.target.price.value);
     let weight = event.target.weight.value || 1;
     const unit = event.target.unit.value;
+    console.log(item);
+    console.log(event.target);
+    console.log(AllCpiItems);
+    console.log(AllUserItems);
+
+    const itemExistsInCpiDatabase = AllCpiItems.find(
+      (cpiItem) =>
+        cpiItem.item_name.toLowerCase() ===
+        item.grocery_list_item_name.toLowerCase()
+    );
+    const itemExistsInUserDatabase = AllUserItems.find(
+      (userItem) =>
+        userItem.user_item_name.toLowerCase() ===
+        item.grocery_list_item_name.toLowerCase()
+    );
+    console.log(itemExistsInCpiDatabase);
+    console.log(itemExistsInUserDatabase);
+
+    if (!itemExistsInCpiDatabase && !itemExistsInUserDatabase) {
+      alert("No pricing data available for this item.  Would you like to add this price to your database for future comparison?")
+    }
 
     if (!price || typeof price !== "number") {
       alert("Please enter a valid number for price");
@@ -239,7 +262,10 @@ function ListMain({
                                   Number(item.avg_user_price)) /
                                 2
                               ).toFixed(2)
-                            : !item.avg_user_price && !item.market_price ? " " : item.market_price || Number(item.avg_user_price).toFixed(2)}{" "}
+                            : !item.avg_user_price && !item.market_price
+                            ? " "
+                            : item.market_price ||
+                              Number(item.avg_user_price).toFixed(2)}{" "}
                           /{" "}
                           {item.cpi_unit_of_measure ||
                             item.user_unit_of_measure}

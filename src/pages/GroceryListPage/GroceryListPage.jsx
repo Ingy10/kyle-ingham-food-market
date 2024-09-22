@@ -15,6 +15,7 @@ function GroceryListPage() {
   const [sort, setSort] = useState("");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [deleteMessage, setDeleteMessage] = useState("");
+  const [allUserItems, setAllUserItems] = useState([]);
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -59,10 +60,23 @@ function GroceryListPage() {
     }
   };
 
+  // function to get all user items
+  const getAllUserItems = async () => {
+    try {
+      const allUserItems = await axios.get(
+        `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/user`
+      );
+      setAllUserItems(allUserItems.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   // renders list on page load
   useEffect(() => {
     getListItems();
     getAllProvincialCpiItems(province);
+    getAllUserItems();
   }, []);
 
   // function to sort list by category
@@ -193,6 +207,8 @@ function GroceryListPage() {
           ResetList={resetList}
           DeleteList={deleteList}
           BASE_URL={BASE_URL}
+          AllCpiItems={allItems}
+          AllUserItems={allUserItems}
         />
         <div
           className="grocery-list-page__delete-modal"
