@@ -23,6 +23,11 @@ function ListMain({
 }) {
   const [showBuyButton, setShowBuyButton] = useState(false);
   const [activeListItemId, setActiveListItemId] = useState("");
+  const [invalidPrice, setInvalidPrice] = useState("");
+  const [listSavingsPerKg, setListSavingsPerKg] = useState("");
+  const [listSavingsPercentage, setListSavingsPercentage] = useState(0);
+  const [pricePerUnit, setPricePerUnit] = useState("");
+  const [unit, setUnit] = useState("");
 
   // object to assign images to each category
   const imageAssign = {
@@ -40,21 +45,82 @@ function ListMain({
     0: checkedBox,
   };
 
-  // function to compare a list item
-  const compareListItem = () => {
+  // function to compare list item
+  const compareItem = (item, event) => {
     event.preventDefault();
+    let price = Number(event.target.price.value);
+    let weight = event.target.weight.value || 1;
+    const unit = event.target.unit.value;
+
+    if (!price || typeof price !== "number") {
+      alert("Please enter a valid number for price");
+      setInvalidPrice("invalid");
+      return;
+    }
+    if (unit === "lb" && item.cpi_unit_of_measure === "kg") {
+      let pricePerLb = price / weight;
+      let pricePerKg = pricePerLb * 2.204623;
+      setListSavingsPerKg((pricePerKg - item.market_price).toFixed(2));
+      setListSavingsPercentage(
+        ((pricePerKg / item.market_price - 1) * 100).toFixed(2)
+      );
+      setPricePerUnit(pricePerKg.toFixed(2));
+      setUnit(item.cpi_unit_of_measure);
+    } else if (
+      (unit === "kg" && item.cpi_unit_of_measure === "kg") ||
+      (unit === "unit" && item.cpi_unit_of_measure === "unit") ||
+      (unit === "litre" && item.cpi_unit_of_measure === "litre") ||
+      (unit === "dozen" && item.cpi_unit_of_measure === "dozen")
+    ) {
+      let pricePer = price / weight;
+      setListSavingsPerKg((pricePer - item.market_price).toFixed(2));
+      setListSavingsPercentage(
+        ((pricePer / item.market_price - 1) * 100).toFixed(2)
+      );
+      setPricePerUnit(pricePer.toFixed(2));
+      setUnit(item.cpi_unit_of_measure);
+    } else if (unit === "100g" && item.cpi_unit_of_measure === "kg") {
+      let pricePerKg = (price / weight) * 10;
+      setListSavingsPerKg((pricePerKg - item.market_price).toFixed(2));
+      setListSavingsPercentage(
+        ((pricePerKg / item.market_price - 1) * 100).toFixed(2)
+      );
+      setPricePerUnit(pricePerKg.toFixed(2));
+      setUnit(item.cpi_unit_of_measure);
+    } else if (unit === "ml" && item.cpi_unit_of_measure === "litre") {
+      let pricePerLitre = (price / weight) * 1000;
+      setListSavingsPerKg((pricePerLitre - item.market_price).toFixed(2));
+      setListSavingsPercentage(
+        ((pricePerLitre / item.market_price - 1) * 100).toFixed(2)
+      );
+      setPricePerUnit(pricePerLitre.toFixed(2));
+      setUnit(item.cpi_unit_of_measure);
+    } else {
+      alert(
+        `Pricing data unavailable for this weight type.  ${item.grocery_list_item_name} pricing data is available in ${item.cpi_unit_of_measure}s`
+      );
+      return;
+    }
+    setInvalidPrice("");
+    event.target.price.value = "";
+    event.target.weight.value = "";
     setShowBuyButton(true);
   };
 
   // function to buy list item that is being compared
-  const purchaseListItem = () => {
+  const purchaseListItem = (id, status) => {
     event.preventDefault();
     setShowBuyButton(false);
+    setListSavingsPercentage(0);
+    setActiveListItemId("");
+    ChangeActiveState(id, status);
   };
 
   // function to show sub-item for a given list item
   const showSubItem = (id, active) => {
-    console.log(id);
+    setListSavingsPercentage(0);
+    setShowBuyButton(false);
+    setInvalidPrice("");
     if (active === 0) {
       return;
     }
@@ -62,8 +128,11 @@ function ListMain({
       setActiveListItemId("");
     } else {
       setActiveListItemId(id);
-      console.log(activeListItemId);
     }
+  };
+
+  const turnOffActiveStateOnReset = () => {
+    setActiveListItemId("");
   };
 
   if (ListItems.length === 0) {
@@ -74,36 +143,34 @@ function ListMain({
         <main className="list-main">
           <section className="list-main__list-section">
             <div className="list-main__list-titles">
-              <div
-                className="list-main__title list-main__title--1"
-                onClick={() => SortName()}
-              >
-                <h3 className="list-main__title-text">Items</h3>
+              <div className="list-main__titles-left">
+                <div
+                  className="list-main__title list-main__title--1"
+                  onClick={() => SortName()}
+                >
+                  <h3 className="list-main__title-text">Items</h3>
+                </div>
+                <div
+                  className="list-main__title list-main__title--2"
+                  onClick={() => SortCategory()}
+                >
+                  <img
+                    className="list-main__title-text list-main__title-category"
+                    src={category}
+                  />
+                </div>
+                <div className="list-main__title list-main__title--3">
+                  <h3 className="list-main__title-text">
+                    Market
+                    <br />
+                    $*
+                  </h3>
+                </div>
               </div>
-              <div
-                className="list-main__title list-main__title--2"
-                onClick={() => SortCategory()}
-              >
-                <img
-                  className="list-main__title-text list-main__title-category"
-                  src={category}
-                />
-              </div>
-              <div className="list-main__title list-main__title--3">
-                <h3 className="list-main__title-text">
-                  Market
-                  <br />
-                  $*
-                </h3>
-              </div>
-              <div className="list-main__title list-main__title--4">
-                <h3 className="list-main__title-text">
-                  My
-                  <br />$
-                </h3>
-              </div>
-              <div className="list-main__title list-main__title--5">
-                <h3 className="list-main__title-text">Buy</h3>
+              <div className="list-main__titles-right">
+                <div className="list-main__title list-main__title--5">
+                  <h3 className="list-main__title-text">Buy</h3>
+                </div>
               </div>
             </div>
             <ul className="list-main__list">
@@ -111,9 +178,6 @@ function ListMain({
                 <div
                   className="list-main__list-item-wrapper"
                   key={item.grocery_list_item_id}
-                  onClick={() =>
-                    showSubItem(item.grocery_list_item_id, item.active_state)
-                  }
                 >
                   <li
                     className="list-main__list-item-row"
@@ -126,41 +190,48 @@ function ListMain({
                           : "",
                     }}
                   >
-                    <div className="list-main__list-item-container list-main__list-item-container--1">
-                      <p className="list-main__list-item list-main__list-item--name">
-                        {item.grocery_list_item_name}
-                      </p>
+                    <div
+                      className="list-main__list-item-left"
+                      onClick={() =>
+                        showSubItem(
+                          item.grocery_list_item_id,
+                          item.active_state
+                        )
+                      }
+                    >
+                      <div className="list-main__list-item-container list-main__list-item-container--1">
+                        <p className="list-main__list-item list-main__list-item--name">
+                          {item.grocery_list_item_name}
+                        </p>
+                      </div>
+                      <div className="list-main__list-item-container list-main__list-item-container--2">
+                        <img
+                          className="list-main__list-item list-main__list-item--category"
+                          src={imageAssign[item.grocery_list_category]}
+                        />
+                      </div>
+                      <div className="list-main__list-item-container list-main__list-item-container--3">
+                        <p className="list-main__list-item list-main__list-item--market-price">
+                          {item.avg_user_price && item.market_price
+                            ? (item.market_price + item.avg_user_price) / 2
+                            : item.market_price || item.avg_user_price}{" "}
+                          / {item.cpi_unit_of_measure}
+                        </p>
+                      </div>
                     </div>
-                    <div className="list-main__list-item-container list-main__list-item-container--2">
-                      <img
-                        className="list-main__list-item list-main__list-item--category"
-                        src={imageAssign[item.grocery_list_category]}
-                      />
-                    </div>
-                    <div className="list-main__list-item-container list-main__list-item-container--3">
-                      <p className="list-main__list-item list-main__list-item--market-price">
-                        {item.avg_user_price && item.market_price
-                          ? (item.market_price + item.avg_user_price) / 2
-                          : item.market_price || item.avg_user_price}{" "}
-                        / {item.cpi_unit_of_measure}
-                      </p>
-                    </div>
-                    <div className="list-main__list-item-container list-main__list-item-container--4">
-                      <p className="list-main__list-item list-main__list-item--my-price">
-                        {} / {}
-                      </p>
-                    </div>
-                    <div className="list-main__list-item-container list-main__list-item-container--5">
-                      <img
-                        className="list-main__list-item list-main__list-item--buy"
-                        src={activeAssign[item.active_state]}
-                        onClick={() =>
-                          ChangeActiveState(
-                            item.grocery_list_item_id,
-                            item.active_state
-                          )
-                        }
-                      />
+                    <div className="list-main__list-item-right">
+                      <div className="list-main__list-item-container list-main__list-item-container--5">
+                        <img
+                          className="list-main__list-item list-main__list-item--buy"
+                          src={activeAssign[item.active_state]}
+                          onClick={() =>
+                            ChangeActiveState(
+                              item.grocery_list_item_id,
+                              item.active_state
+                            )
+                          }
+                        />
+                      </div>
                     </div>
                   </li>
                   <li
@@ -170,29 +241,53 @@ function ListMain({
                         activeListItemId === item.grocery_list_item_id
                           ? "flex"
                           : "none",
+                      boxShadow:
+                        listSavingsPercentage === 0
+                          ? "inset 1px 1px 5px #121211c2, inset -1px -1px 1px #121211c2"
+                          : listSavingsPercentage > 0
+                          ? "inset 2px 2px 7px #a82a13, inset -2px -2px 3px #a82a13"
+                          : "inset 2px 2px 7px #556b2f, inset -2px -2px 3px #556b2f",
                     }}
                   >
-                    <form className="list-main__compare-form">
+                    <form
+                      className="list-main__compare-form"
+                      onSubmit={() => compareItem(item, event)}
+                    >
                       <div className="list-main__input-container list-main__input-container--1">
                         <input
-                          className="list-main__input list-main__input--price"
+                          className={`list-main__input list-main__input--price list-main__input--price-${invalidPrice}`}
                           placeholder="price"
                           autoComplete="off"
+                          name="price"
+                          style={{ display: showBuyButton ? "none" : "flex" }}
                         />
                         <img
                           className="list-main__input--icon"
                           src={dollarSymbol}
+                          style={{ display: showBuyButton ? "none" : "flex" }}
                         />
+                        <p
+                          className="list-main__unit-price-text list-main__unit-price-text--price"
+                          style={{ display: showBuyButton ? "flex" : "none" }}
+                        >
+                          ${pricePerUnit}/{unit}
+                        </p>
                       </div>
                       <div className="list-main__input-container list-main__input-container--2">
                         <input
                           className="list-main__input list-main__input--weight"
                           placeholder="wt."
                           autoComplete="off"
+                          name="weight"
+                          style={{ display: showBuyButton ? "none" : "flex" }}
                         />
                       </div>
                       <div className="list-main__input-container list-main__input-container--3">
-                        <select className="list-main__input list-main__input--unit">
+                        <select
+                          className="list-main__input list-main__input--unit"
+                          name="unit"
+                          style={{ display: showBuyButton ? "none" : "flex" }}
+                        >
                           <option value="lb">&nbsp; lb</option>
                           <option value="kg">&nbsp; kg</option>
                           <option value="100g">100g</option>
@@ -200,18 +295,32 @@ function ListMain({
                           <option value="litre">&nbsp; litre</option>
                           <option value="dozen">dozen</option>
                         </select>
+                        <p
+                          className="list-main__unit-price-text list-main__unit-price-text--percentage"
+                          style={{
+                            display: showBuyButton ? "flex" : "none",
+                            color: listSavingsPercentage > 0 ? "red" : "green",
+                          }}
+                        >
+                          {listSavingsPercentage}%
+                        </p>
                       </div>
                       <div className="list-main__form-button-container">
                         <button
                           className="list-main__form-button list-main__form-button--compare"
-                          onClick={() => compareListItem()}
+                          type="submit"
                           style={{ display: showBuyButton ? "none" : "flex" }}
                         >
                           COMPARE
                         </button>
                         <button
                           className="list-main__form-button list-main__form-button--buy"
-                          onClick={() => purchaseListItem()}
+                          onClick={() =>
+                            purchaseListItem(
+                              item.grocery_list_item_id,
+                              item.active_state
+                            )
+                          }
                           style={{ display: showBuyButton ? "flex" : "none" }}
                         >
                           BUY
@@ -229,6 +338,7 @@ function ListMain({
                     className="list-main__button list-main__button--reset"
                     onClick={() => {
                       ResetList();
+                      turnOffActiveStateOnReset();
                       window.scrollTo({ top: 0, behavior: "auto" });
                     }}
                   >
