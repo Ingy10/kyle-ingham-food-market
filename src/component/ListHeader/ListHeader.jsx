@@ -1,9 +1,8 @@
 import "./ListHeader.scss";
 import listWhite from "../../assets/icons/list-2-white.png";
-import produceDark from "../../assets/images/produce-black.jpg";
 import arrowBack from "../../assets/icons/back-arrow.png";
 import searchBlack from "../../assets/icons/search-black.png";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 
@@ -25,7 +24,6 @@ function ListHeader({
   // function to add item to list
   const addItem = async (event) => {
     event.preventDefault();
-    // these variables need to be assigned dynamically based on a item_name search of respective tables
     let cpiItemId = null;
     const userItemId = null;
 
@@ -63,8 +61,6 @@ function ListHeader({
   return (
     <>
       <header className="list-header">
-        {/* <img className="list-header__background-image" src={produceDark} /> */}
-        {/* <div className="list-header__overlay"></div> */}
         <div className="list-header__container-nav">
           <div className="list-header__wrapper-icon" onClick={handleGoBack}>
             <img

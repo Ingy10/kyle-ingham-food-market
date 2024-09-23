@@ -9,7 +9,7 @@ import meat from "../../assets/icons/steak-black.png";
 import bakery from "../../assets/icons/bread-black.png";
 import other from "../../assets/icons/other-black.png";
 import dollarSymbol from "../../assets/icons/dollar-symbol.png";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
