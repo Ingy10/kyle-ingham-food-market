@@ -1,5 +1,5 @@
 import "./CompareMain.scss";
-import zigZagArrowBlack from "../../assets/icons/zigzag-arrow-black.png";
+import zigZagArrowWhite from "../../assets/icons/zigzag-arrow-white.png";
 import odometer from "../../assets/images/speedometer.png";
 import dollarBlack from "../../assets/icons/dollar-symbol.png";
 import { useState, useEffect } from "react";
@@ -223,6 +223,7 @@ function CompareMain({ SelectedItem, AllItems }) {
                   type="text"
                   placeholder="Price"
                   name="price1"
+                  autoComplete="off"
                   {...register("price1")}
                 />
                 <img className="compare-main__input--icon" src={dollarBlack} />
@@ -232,6 +233,7 @@ function CompareMain({ SelectedItem, AllItems }) {
                 type="text"
                 placeholder="Weight"
                 name="weight1"
+                autoComplete="off"
                 {...register("weight1")}
               />
               <select
@@ -259,6 +261,7 @@ function CompareMain({ SelectedItem, AllItems }) {
                   type="text"
                   placeholder="Price"
                   name="price2"
+                  autoComplete="off"
                   {...register("price2")}
                 />
                 <img className="compare-main__input--icon" src={dollarBlack} />
@@ -316,7 +319,7 @@ function CompareMain({ SelectedItem, AllItems }) {
               <div className="compare-main__title compare-main__title--2">
                 <img
                   className="compare-main__title-image"
-                  src={zigZagArrowBlack}
+                  src={zigZagArrowWhite}
                 />
               </div>
               <div className="compare-main__title compare-main__title--3">

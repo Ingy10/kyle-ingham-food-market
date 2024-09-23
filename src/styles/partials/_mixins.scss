@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  font-weight: 700;
   cursor: pointer;
   &:hover {
     opacity: 0.9;
@@ -34,5 +35,17 @@
   &:focus {
     border: 2px solid $pd-color3;
     box-shadow: 1px 1px 3px $pd-color3, -1px -1px 3px $pd-color3;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: $tablet) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: $desktop) {
+    @content;
   }
 }

@@ -44,8 +44,8 @@ function CompareHeader({
   return (
     <>
       <header className="compare-header">
-        <img className="compare-header__background-image" src={produceSpread} />
-        <div className="compare-header__overlay"></div>
+        {/* <img className="compare-header__background-image" src={produceSpread} /> */}
+        {/* <div className="compare-header__overlay"></div> */}
         <div className="compare-header__container-nav">
           <Link
             className="compare-header__list-link"
