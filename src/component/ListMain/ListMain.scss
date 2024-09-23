@@ -188,7 +188,7 @@
     &--buy {
       margin-top: 0.5rem;
       margin-bottom: 0.5rem;
-      @include button($pd-color3, white, 1rem);
+      @include button($pd-color3, $pd-color1, 1rem);
       & {
         min-height: 2.5rem;
       }

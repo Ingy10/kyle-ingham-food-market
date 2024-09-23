@@ -13,7 +13,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    background-color: $pd-color1;
+    // background-color: $pd-color1;
     @include tablet {
       width: 80%;
     }
@@ -25,6 +25,12 @@
     margin-bottom: 1rem;
     @include tablet {
       width: 80%;
+      gap: 2rem;
+      justify-content: space-evenly;
+    }
+    @include desktop {
+      padding-right: 10%;
+      padding-left: 10%;
     }
   }
   &__selected-item {
@@ -41,7 +47,7 @@
   }
   &__selected-item-chosen {
     padding: 0.75rem 2rem 0.75rem 1rem;
-    background-color: $pd-color3;
+    background-color: $sd-color1;
     color: $pd-color1;
     border-radius: 0 20px 0 0;
     flex-grow: 1;
@@ -59,6 +65,12 @@
     padding-bottom: 1rem;
     border-radius: 10px;
     box-shadow: inset 2px 2px 4px $pd-color1, inset -1px -1px 4px $pd-color1;
+    @include tablet {
+      width: 90%;
+    }
+    @include desktop {
+      width: 70%;
+    }
   }
   &__details-summary {
     color: $pd-color2;
@@ -66,7 +78,6 @@
     cursor: pointer;
     width: 90%;
     &--2 {
-      border-top: 2px solid $pd-color1;
       margin-top: 0.5rem;
     }
   }
@@ -96,6 +107,7 @@
       padding-left: 1rem;
       width: 35%;
       border: 2px solid $pd-color1;
+      box-shadow: inset 1px 1px 4px $pd-color1;
     }
     &--icon {
       left: 2%;
