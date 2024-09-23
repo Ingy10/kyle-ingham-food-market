@@ -1,3 +1,7 @@
+@use "../../styles/partials/variables" as *;
+@use "../../styles/partials/mixins" as *;
+
 .grocery-list-page {
   position: relative;
+  background-color: $pd-color1;
 }

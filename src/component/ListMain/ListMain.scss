@@ -3,11 +3,24 @@
 
 .list-main {
   background-color: $pd-color3-opaque;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: auto;
+  @include tablet {
+    width: 80%;
+    border-radius: 0 25px 0 0;
+  }
+  @include desktop {
+    width: 50%;
+  }
   &__list-section {
     border-radius: 25px 25px 0 0;
     background-color: $sd-color2;
     padding-top: 0.3rem;
     padding-bottom: 0.3rem;
+    width: 100%;
+    box-shadow: inset 1px 1px 4px $pd-color2;
   }
   &__list-titles {
     display: flex;

@@ -9,18 +9,8 @@
   width: 100%;
   align-items: center;
   position: relative;
-  &__background-image {
-    width: 100%;
-    position: absolute;
-    z-index: -1;
-  }
-  &__overlay {
-    background-color: $pd-color1;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    opacity: 0.8;
+  @include tablet {
+    border: none;
   }
   &__container-nav {
     display: flex;
@@ -28,6 +18,12 @@
     width: 100%;
     padding-right: 0.5rem;
     padding-left: 0.5rem;
+    @include tablet {
+      width: 80%;
+    }
+    @include desktop {
+      width: 70%;
+    }
   }
   &__title {
     text-align: center;
@@ -61,6 +57,9 @@
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
     position: relative;
+    @include tablet {
+      width: 70%;
+    }
   }
   &__search-bar {
     width: 100%;
@@ -84,6 +83,9 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    @include tablet {
+      width: 80%;
+    }
   }
   &__add-button {
     margin-top: 0.5rem;
@@ -94,6 +96,12 @@
     width: 100%;
     display: flex;
     padding-top: 0.5rem;
+    @include tablet {
+      width: 80%;
+    }
+    @include desktop {
+      width: 50%;
+    }
   }
   &__tab {
     background-color: $pd-color3-opaque;

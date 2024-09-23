@@ -63,8 +63,8 @@ function ListHeader({
   return (
     <>
       <header className="list-header">
-        <img className="list-header__background-image" src={produceDark} />
-        <div className="list-header__overlay"></div>
+        {/* <img className="list-header__background-image" src={produceDark} /> */}
+        {/* <div className="list-header__overlay"></div> */}
         <div className="list-header__container-nav">
           <div className="list-header__wrapper-icon" onClick={handleGoBack}>
             <img
