@@ -16,10 +16,6 @@ function App() {
             path="/grocery-list/:userId/:province/:groceryListId"
             element={<GroceryListPage />}
           ></Route>
-          <Route
-            path="/grocery-list/:userId/:province/:groceryListId/delete"
-            element={<GroceryListPage />}
-          ></Route>
         </Routes>
       </BrowserRouter>
     </>

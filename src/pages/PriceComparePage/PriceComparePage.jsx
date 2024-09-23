@@ -53,12 +53,13 @@ function PriceComparePage() {
   const selectItemToCompare = (event) => {
     event.preventDefault();
     let foundItem = "";
-    foundItem = allItems.filter((item) =>
-      item.item_name
-        .toLowerCase()
-        .includes(event.target.search.value.toLowerCase())
+    foundItem = allItems.find(
+      (item) =>
+        item.item_name.toLowerCase() === event.target.search.value.toLowerCase()
     );
-    if (foundItem.length === 0) {
+    console.log(event.target.search.value);
+    console.log(foundItem);
+    if (!foundItem) {
       alert(`Pricing data unavailable for ${event.target.search.value}`);
       setInvalid("--invalid");
       return;

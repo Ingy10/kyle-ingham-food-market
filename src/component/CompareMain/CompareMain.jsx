@@ -188,6 +188,7 @@ function CompareMain({ SelectedItem, AllItems }) {
     const newObj = itemObj;
 
     setItemHistory((prevArray) => [newObj, ...prevArray]);
+    reset();
   };
 
   // function to keep recent history to last 5 searches

@@ -38,6 +38,7 @@ function CompareHeader({
     event.preventDefault();
     SelectItemToCompare(event);
     setSearchTerm("");
+    RemoveList();
   };
 
   return (
