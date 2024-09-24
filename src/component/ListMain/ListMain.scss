@@ -118,9 +118,14 @@
     &--name {
       padding-left: 0.5rem;
       justify-content: flex-start;
+      font-size: 1.3rem;
+      text-align: left;
     }
     &--category {
       width: 2rem;
+    }
+    &--market-price {
+      font-size: 1.1rem;
     }
     &--buy {
       width: 2.5rem;
@@ -236,6 +241,8 @@
   }
   &__foot-note {
     padding-bottom: 0.5rem;
+    padding-right: 2rem;
+    padding-left: 2rem;
     text-align: center;
   }
 }

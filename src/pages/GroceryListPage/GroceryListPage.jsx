@@ -32,21 +32,24 @@ function GroceryListPage() {
       const listArray = await axios.get(
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}`
       );
+
+      const listData = [...listArray.data];
+
       if (sort === "category") {
-        listArray.data.sort((a, b) =>
+        listData.sort((a, b) =>
           a.grocery_list_category.localeCompare(b.grocery_list_category)
         );
       } else if (sort === "sortaz") {
-        listArray.data.sort((a, b) =>
+        listData.sort((a, b) =>
           a.grocery_list_item_name.localeCompare(b.grocery_list_item_name)
         );
       } else if (sort === "sortza") {
-        listArray.data.sort((a, b) =>
+        listData.sort((a, b) =>
           b.grocery_list_item_name.localeCompare(a.grocery_list_item_name)
         );
       }
-      listArray.data.sort((a, b) => b.active_state - a.active_state);
-      setListItems(listArray.data);
+      listData.sort((a, b) => b.active_state - a.active_state);
+      setListItems(listData);
       window.scrollTo(0, window.scrollY);
     } catch (error) {
       console.error(error);
@@ -105,14 +108,20 @@ function GroceryListPage() {
       const sortedList = [...listItems].sort((a, b) =>
         a.grocery_list_item_name.localeCompare(b.grocery_list_item_name)
       );
-      setListItems(sortedList);
+      const finalSortedList = [...sortedList].sort(
+        (a, b) => b.active_state - a.active_state
+      );
+      setListItems(finalSortedList);
       setSortAz(true);
       setSort("sortaz");
     } else {
       const sortedList = [...listItems].sort((a, b) =>
         b.grocery_list_item_name.localeCompare(a.grocery_list_item_name)
       );
-      setListItems(sortedList);
+      const finalSortedList = [...sortedList].sort(
+        (a, b) => b.active_state - a.active_state
+      );
+      setListItems(finalSortedList);
       setSortAz(false);
       setSort("sortza");
     }
@@ -148,6 +157,7 @@ function GroceryListPage() {
       await axios.patch(
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/reset`
       );
+      getAllUserItems();
       getListItems();
     } catch (error) {
       console.error(error);

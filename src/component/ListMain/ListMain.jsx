@@ -436,7 +436,7 @@ function ListMain({
               </div>
               <p className="list-main__foot-note">
                 *Food prices available for items tracked in provincial CPI
-                report as well as items you add prices for
+                report as well as items you have logged prices for.
               </p>
             </footer>
           </section>
