@@ -14,7 +14,7 @@
     align-items: center;
     width: 100%;
     @include tablet {
-      width: 80%;
+      width: 70%;
     }
   }
   &__selected-item-container {
@@ -23,7 +23,7 @@
     width: 100%;
     margin-bottom: 1rem;
     @include tablet {
-      width: 80%;
+      width: 70%;
       gap: 2rem;
       justify-content: space-evenly;
     }

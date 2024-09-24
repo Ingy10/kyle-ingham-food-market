@@ -17,7 +17,7 @@
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     @include desktop {
-      width: 80%;
+      width: 70%;
     }
   }
   &__title {
@@ -56,6 +56,10 @@
     display: flex;
     width: 100%;
     justify-content: center;
+    padding-top: 0.5rem;
+    @include desktop {
+      width: 80%;
+    }
   }
   &__search-container {
     width: 66%;
