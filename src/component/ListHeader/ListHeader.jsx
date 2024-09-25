@@ -4,7 +4,7 @@ import arrowBack from "../../assets/icons/back-arrow.png";
 import searchBlack from "../../assets/icons/search-black.png";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useForm } from "react-hook-form";
+import { useState } from "react";
 
 function ListHeader({
   UserId,
@@ -13,8 +13,11 @@ function ListHeader({
   BASE_URL,
   GetListItems,
   AllItems,
+  AllUserItems,
 }) {
-  const { register, reset } = useForm();
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchItemsList, setSearchItemsList] = useState([]);
+  const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
   const handleGoBack = (event) => {
@@ -44,7 +47,7 @@ function ListHeader({
       cpi_item_id: cpiItemId,
       user_item_id: userItemId,
       item_name: event.target.search.value,
-      category: event.target.category.value,
+      category: event.target.category.value || "other",
     };
 
     try {
@@ -53,11 +56,46 @@ function ListHeader({
         itemToAdd
       );
       GetListItems();
-      reset();
+      setSearchTerm("");
+      setCategory("");
     } catch (error) {
       console.error(error);
     }
   };
+
+  // function to handle changes in input bar
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+    searchItems(event);
+  };
+
+  // function to search all user and cpi items from search bar
+  const searchItems = (event) => {
+    const targetValue = event.target.value.toLowerCase();
+    const foundItem1 = AllItems.filter((item) =>
+      item.item_name.toLowerCase().includes(targetValue)
+    );
+    const foundItem2 = AllUserItems.filter((item) =>
+      item.user_item_name.toLowerCase().includes(targetValue)
+    );
+  
+    const searchListDropdown = [...new Map(
+      foundItem1.concat(foundItem2).map(item => [
+        item.user_item_name?.toLowerCase() || item.item_name.toLowerCase(),
+        item
+      ])
+    ).values()];
+  
+    setSearchItemsList(searchListDropdown);
+  };
+
+  // function to set the item name in the search bar
+  const setItemName = (name, category) => {
+    setSearchItemsList([]);
+    setSearchTerm(name);
+    setCategory(category);
+  };
+
   return (
     <>
       <header className="list-header">
@@ -93,19 +131,36 @@ function ListHeader({
               type="text"
               placeholder="Add Item..."
               name="search"
+              onChange={() => handleInputChange(event)}
+              value={searchTerm}
               autoComplete="off"
-              {...register("search")}
             />
             <img className="list-header__search-bar--icon" src={searchBlack} />
+            <ul className="list-header__search-items-list">
+              {searchItemsList.map((item) => (
+                <li
+                  className="list-header__search-item"
+                  key={item.id}
+                  onClick={() =>
+                    setItemName(
+                      item.item_name || item.user_item_name,
+                      item.category
+                    )
+                  }
+                >
+                  {item.item_name || item.user_item_name}
+                </li>
+              ))}
+            </ul>
           </div>
           <div className="list-header__input-wrapper">
             <div className="list-header__dropdown-container">
               <select
                 className="list-header__dropdown"
-                defaultValue=""
                 name="category"
                 id="category"
-                {...register("category")}
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
               >
                 <option value="" disabled>
                   category

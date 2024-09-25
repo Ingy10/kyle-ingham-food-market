@@ -82,9 +82,12 @@ function ListMain({
         price,
         item.grocery_list_category,
         unit,
-        weight
+        weight,
+        item.grocery_list_item_id
       );
       window.scrollTo({ top: 0, behavior: "auto" });
+      event.target.price.value = "";
+      event.target.weight.value = "";
       return;
     }
 

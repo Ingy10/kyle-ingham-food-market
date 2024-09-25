@@ -9,9 +9,11 @@ function addUserItemModal({
   ItemToAddCategory,
   ItemToAddUnit,
   ItemToAddWeight,
+  ItemToAddId,
   CancelUserItemModal,
   BASE_URL,
   UpdateActiveListItemId,
+  ChangeActiveState,
 }) {
   const { userId, province, groceryListId } = useParams();
   const [defaultUnit, setDefaultUnit] = useState("");
@@ -70,6 +72,7 @@ function addUserItemModal({
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}/buy`,
         itemToAdd
       );
+      ChangeActiveState(ItemToAddId, 1);
       CancelUserItemModal();
       UpdateActiveListItemId("");
       setInvalidPrice("");
@@ -149,6 +152,7 @@ function addUserItemModal({
               <button
                 className="add-item-modal__button add-item-modal__button--cancel"
                 onClick={CancelUserItemModal}
+                type="button"
               >
                 CANCEL
               </button>

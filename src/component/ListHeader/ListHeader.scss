@@ -65,6 +65,23 @@
     width: 100%;
     @include search-bar;
   }
+  &__search-items-list {
+    background-color: $pd-color2-opaque;
+    color: $pd-color1;
+    position: absolute;
+    z-index: 1;
+    width: 90%;
+    left: 5%;
+    list-style-type: none;
+    padding: 0;
+  }
+  &__search-item {
+    padding: 0.5rem;
+    cursor: pointer;
+    &:hover {
+      background-color: $pd-color2;
+    }
+  }
   &__dropdown {
     @include search-bar;
     & {

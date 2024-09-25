@@ -36,7 +36,6 @@ function PriceComparePage() {
 
   // search bar filter function
   const searchItems = (event) => {
-    console.log(event.target.value);
     const foundItem = allItems.filter((item) =>
       item.item_name.toLowerCase().includes(event.target.value.toLowerCase())
     );
@@ -57,8 +56,6 @@ function PriceComparePage() {
       (item) =>
         item.item_name.toLowerCase() === event.target.search.value.toLowerCase()
     );
-    console.log(event.target.search.value);
-    console.log(foundItem);
     if (!foundItem) {
       alert(`Pricing data unavailable for ${event.target.search.value}`);
       setInvalid("--invalid");

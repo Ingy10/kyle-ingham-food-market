@@ -24,6 +24,7 @@ function GroceryListPage() {
   const [itemToAddUnit, setItemToAddUnit] = useState("");
   const [itemToAddWeight, setItemToAddWeight] = useState("");
   const [activeListItemId, setActiveListItemId] = useState("");
+  const [itemToAddId, setItemToAddId] = useState("");
   const { userId, province, groceryListId } = useParams();
 
   // function to get all items for a given list
@@ -145,6 +146,7 @@ function GroceryListPage() {
         `${BASE_URL}/grocery-list/${userId}/${province}/${groceryListId}`,
         activeStatus
       );
+      getAllUserItems();
       getListItems();
     } catch (error) {
       console.error(error);
@@ -206,18 +208,32 @@ function GroceryListPage() {
   };
 
   // function to show add user item modal
-  const activateUserItemModal = (name, price, category, unit, weight) => {
+  const activateUserItemModal = (
+    name,
+    price,
+    category,
+    unit,
+    weight,
+    listId
+  ) => {
     setShowAddUserItemModal(true);
     setItemToAddName(name);
     setItemToAddPrice(price);
     setItemToAddCategory(category);
     setItemToAddUnit(unit);
     setItemToAddWeight(weight);
+    setItemToAddId(listId);
   };
 
   // function to remove user item modal
   const cancelUserItemModal = () => {
+    setItemToAddName("");
+    setItemToAddPrice("");
+    setItemToAddCategory("");
+    setItemToAddUnit("");
+    setItemToAddWeight("");
     setShowAddUserItemModal(false);
+    setActiveListItemId("");
   };
 
   // function to set active list item id
@@ -235,6 +251,7 @@ function GroceryListPage() {
           GroceryListId={groceryListId}
           GetListItems={getListItems}
           AllItems={allItems}
+          AllUserItems={allUserItems}
         />
         <ListMain
           ListItems={listItems}
@@ -270,9 +287,11 @@ function GroceryListPage() {
             ItemToAddCategory={itemToAddCategory}
             ItemToAddUnit={itemToAddUnit}
             ItemToAddWeight={itemToAddWeight}
+            ItemToAddId={itemToAddId}
             CancelUserItemModal={cancelUserItemModal}
             BASE_URL={BASE_URL}
             UpdateActiveListItemId={updateActiveListItemId}
+            ChangeActiveState={changeActiveState}
           />
         </div>
       </main>
