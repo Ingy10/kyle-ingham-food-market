@@ -27,7 +27,8 @@ git clone https://github.com/Ingy10/kyle-ingham-food-market-server.git
 ### 2. Set Up Environment Variables
 
 1. In the root directory of the project, you'll find a file named `.env.sample`.
-2. Create a copy of this file and name it `.env`:
+2. Create a copy of this file and name it `.env`.
+3. Do this for both server and client side.
 
 ```bash
 cp .env.sample .env
@@ -47,7 +48,21 @@ npm install
 npm install
 ```
 
-### 4. Run the Application
+### 4. Migrate Tables and Seed
+
+1. On the server side run:
+
+```bash
+npx knex migrate:latest
+```
+
+2. Seed the migrated database:
+
+```bash
+npx knex seed:run
+```
+
+### 5. Run the Application
 
 You'll need to start both the server and client sides of the application.
 
@@ -67,7 +82,7 @@ npm run dev
 
 This will start the React development server, typically on `http://localhost:5173`.
 
-### 5. Access the Application
+### 6. Access the Application
 
 Open your web browser and visit `http://localhost:5173/1/aberta` to view the React frontend. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
 
