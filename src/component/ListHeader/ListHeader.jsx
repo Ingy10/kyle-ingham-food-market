@@ -67,6 +67,9 @@ function ListHeader({
   const handleInputChange = (event) => {
     setSearchTerm(event.target.value);
     searchItems(event);
+    if (event.target.value === "") {
+      setSearchItemsList([]);
+    }
   };
 
   // function to search all user and cpi items from search bar
@@ -78,14 +81,17 @@ function ListHeader({
     const foundItem2 = AllUserItems.filter((item) =>
       item.user_item_name.toLowerCase().includes(targetValue)
     );
-  
-    const searchListDropdown = [...new Map(
-      foundItem1.concat(foundItem2).map(item => [
-        item.user_item_name?.toLowerCase() || item.item_name.toLowerCase(),
-        item
-      ])
-    ).values()];
-  
+
+    const searchListDropdown = [
+      ...new Map(
+        foundItem1
+          .concat(foundItem2)
+          .map((item) => [
+            item.user_item_name?.toLowerCase() || item.item_name.toLowerCase(),
+            item,
+          ])
+      ).values(),
+    ];
     setSearchItemsList(searchListDropdown);
   };
 
