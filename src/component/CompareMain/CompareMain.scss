@@ -239,6 +239,9 @@
       background-color: $pd-color1-opaque;
       width: 80%;
     }
+    @include desktop {
+      width: 65%;
+    }
   }
   &__list {
     border-bottom: 1px solid $pd-color1;
