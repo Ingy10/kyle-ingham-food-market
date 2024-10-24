@@ -82,7 +82,7 @@ You'll need to start both the server and client sides of the application.
 node --watch server.js
 ```
 
-This will start the Express server, typically on `http://localhost:8080` (check the console output for the exact URL).
+This will start the Express server, typically on `http://localhost:8080` (check the console output for the exact URL and replace port number with the one you chose in the server side .env file).
 
 2. In a new terminal window, start the client:
 
@@ -94,7 +94,7 @@ This will start the React development server, typically on `http://localhost:517
 
 ### 6. Access the Application
 
-Open your web browser and visit `http://localhost:5173/compare/1/aberta` to view the React frontend. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
+As the project is still in development, open your web browser and visit `http://localhost:5173/compare/1/aberta` to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
 
 ## Additional Information
 
