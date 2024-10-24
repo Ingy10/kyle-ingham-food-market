@@ -10,6 +10,8 @@ Before you begin, ensure you have the following installed on your system:
 
 ## Getting Started
 
+#### Find Server Here: https://github.com/Ingy10/kyle-ingham-food-market-server
+
 ### 1. Clone the Repository
 
 #### Client
