@@ -1,4 +1,12 @@
-# React and Express Project
+![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
+![](https://img.shields.io/badge/Sass-CC6699?style=for-the-badge&logo=sass&logoColor=white)
+![](https://img.shields.io/badge/axios-671ddf?&style=for-the-badge&logo=axios&logoColor=white)
+![](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![](https://img.shields.io/badge/Express%20js-000000?style=for-the-badge&logo=express&logoColor=white)
+![](https://img.shields.io/badge/npm-CB3837?style=for-the-badge&logo=npm&logoColor=white)
+![](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
+![](https://img.shields.io/badge/Knex.js-ff5722?style=for-the-badge&logo=knex&logoColor=white)
 
 ## Prerequisites
 
@@ -9,6 +17,8 @@ Before you begin, ensure you have the following installed on your system:
 - [Git](https://git-scm.com/)
 
 ## Getting Started
+
+#### Find Server Here: https://github.com/Ingy10/kyle-ingham-food-market-server
 
 ### 1. Clone the Repository
 
@@ -72,7 +82,7 @@ You'll need to start both the server and client sides of the application.
 node --watch server.js
 ```
 
-This will start the Express server, typically on `http://localhost:8080` (check the console output for the exact URL).
+This will start the Express server, typically on `http://localhost:8080` (check the console output for the exact URL and replace port number with the one you chose in the server side .env file).
 
 2. In a new terminal window, start the client:
 
@@ -84,7 +94,7 @@ This will start the React development server, typically on `http://localhost:517
 
 ### 6. Access the Application
 
-Open your web browser and visit `http://localhost:5173/compare/1/aberta` to view the React frontend. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
+As the project is still in development, open your web browser and visit `http://localhost:5173/compare/1/aberta` to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
 
 ## Additional Information
 
