@@ -112,7 +112,9 @@ This will start the React development server, typically on `http://localhost:517
 
 ### 6. Access the Application
 
-As the project is still in development, open your web browser and visit **`http://localhost:5173/compare/1/alberta`** to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
+As the project is still in development, open your web browser and visit **`http://localhost:5173/compare/1/alberta`** to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. Now you can use the compare feature on the compare page to compare prices! You can also use the List icon in the top left corner to navigate to the list page of the application.  Once on the list page you can **start adding groceries to your list.**  Select items from the dropdown and you will see the current market price in Alberta populate next to the list item.  **Click on that item in the list to reveal a price compare feature where you can compare your local price!** 
+
+**Check routes in App.jsx to ensure you are using the correct URL.**
 
 ## Additional Information
 
