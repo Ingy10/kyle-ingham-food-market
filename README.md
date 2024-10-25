@@ -23,8 +23,8 @@ Food Market is an innovative grocery price comparison tool designed to empower s
 
 ## 📸 View Project Screen Shots
 
-- [Compare Page](./src/assets/screenshots/Food20%Market20%-20%Compare20%Page20%-20%Mobile.png)
-- [List Page](./src/assets/screenshots/Food20%Market20%-20%List20%Page20%Mobile20%-20%Compare20%Item.png)
+- [Compare Page](./src/assets/screenshots/Food%20Market%20-%20Compare%20Page%20-%20Mobile.png)
+- [List Page](./src/assets/screenshots/Food%20Market%20-%20List%20Page%20Mobile%20-%20Compare%20Item.png)
 
 ## Prerequisites
 
