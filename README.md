@@ -8,6 +8,24 @@
 ![](https://img.shields.io/badge/MySQL-005C84?style=for-the-badge&logo=mysql&logoColor=white)
 ![](https://img.shields.io/badge/Knex.js-ff5722?style=for-the-badge&logo=knex&logoColor=white)
 
+# 🛒 Food Market - Smart Grocery Price Comparison App
+
+## 💡 Project Overview
+Food Market is an innovative grocery price comparison tool designed to empower shoppers during the current cost-of-living crisis. The app provides real-time market price comparisons, smart shopping list management, and intuitive unit conversion features, helping users make informed decisions and avoid price gouging while grocery shopping.
+
+## ⭐ Key Features & Innovation
+- **Market Price Analysis**: Dynamic price comparison system showing how store prices compare to provincial market averages
+- **Intelligent Shopping Lists**: Category-organized lists with integrated market price indicators for efficient shopping
+- **Smart Unit Conversion**: Instant conversion between lbs, kgs, and grams with percentage difference calculations from market averages
+- **Personal Price History**: Unique feature tracking user's purchase history to build personalized price profiles
+- **Recent Comparisons**: Quick access to last five price comparisons for easy item-to-item price analysis
+- **Location-Specific Data**: Provincial market average prices for accurate local comparisons
+
+## 📸 View Project Screen Shots
+
+- [Compare Page](./src/assets/screenshots/Food20%Market20%-20%Compare20%Page20%-20%Mobile.png)
+- [List Page](./src/assets/screenshots/Food20%Market20%-20%List20%Page20%Mobile20%-20%Compare20%Item.png)
+
 ## Prerequisites
 
 Before you begin, ensure you have the following installed on your system:
@@ -94,7 +112,7 @@ This will start the React development server, typically on `http://localhost:517
 
 ### 6. Access the Application
 
-As the project is still in development, open your web browser and visit `http://localhost:5173/compare/1/aberta` to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
+As the project is still in development, open your web browser and visit **`http://localhost:5173/compare/1/aberta`** to view the React frontend. This will simulate a logged in user from Alberta using the app and will use Alberta CPI data for price comparisons along with any prices you log while using the app. The frontend should now be connected to the Express backend. You can use the List icon in the top left corner to navigate to the list page of the application. Check routes in App.jsx to ensure you are using the correct URL.
 
 ## Additional Information
 
